@@ -1,14 +1,39 @@
 ---
-import Hamburger from "./Hamburger.astro"
 import Navigation from "./Navigation.astro"
-import ThemeIcon from "./ThemeIcon.astro"
 
 ---
 
+<style>
+    header {
+        background-color: #ffff;
+        padding: 1em;
+        font-family: 'Raleway';
+        margin: 0;
+        padding: 0;
+    }
+
+    .header-content {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 80%;
+        display: flex;
+        align-items: baseline;
+    }
+
+    h1 {
+        font-size: 3em;
+        margin-right: auto;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+    }
+</style>
+
 <header>
-    <nav>
-        <Hamburger />
-        <ThemeIcon />
-        <Navigation />
-    </nav>
+    <div class="header-content">
+        <h1>Sean Lee</h1>
+        <nav>
+            <Navigation />
+        </nav>
+    </div>
+    <div class="colored-strip"></div>
 </header>

@@ -1,9 +1,26 @@
 ---
 ---
+<style>
+    div {
+        padding: 0.8em 0;
+    }
 
-<div transition:animate="slide" class="nav-links">
+    a {
+        padding: 0 1.1em;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1.4em;
+        color: #39383A;
+    }
+
+    a:hover, a:focus {
+        text-decoration: underline;
+        filter: brightness(300%)
+    }
+</style>
+
+<div>
     <a href="/">Home</a>
-    <a href="/about/" data-astro-reload>About</a>
-    <a href="/blog/">Blog</a>
-    <a href="/tags/">Tags</a>
+    <a href="/">Projects</a>
+    <a href="/">Contact</a>
 </div>

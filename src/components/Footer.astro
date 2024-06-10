@@ -1,18 +1,36 @@
 ---
-import Social from "./Social.astro"
-
+import FooterNavigation from "./FooterNavigation.astro";
 ---
 
 <style>
-    footer {
-        display: flex;
-        gap: 1rem;
-        margin-top: 2rem;
-    }
+  footer {
+    margin-top: 5em;
+    background-color: #ffff;
+    padding: 1em;
+    font-family: 'Raleway';
+    padding: 0;
+  }
+
+  .footer-content {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 80%;
+    min-height: 5em;
+    display: flex;
+    align-items: center;
+    font-size: 1.2em;
+  }
+
+  .footer-name {
+    margin-right: auto;
+  }
+
 </style>
 
 <footer>
-  <Social platform="twitter" username="astrodotbuild" />
-  <Social platform="github" username="withastro" />
-  <Social platform="youtube" username="astrodotbuild" />
+  <div class="colored-strip"></div>
+  <div class="footer-content">
+    <div class="footer-name">Sean Lee | 2024</div>
+    <FooterNavigation />
+  </div>
 </footer>
