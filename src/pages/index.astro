@@ -1,12 +1,13 @@
 ---
-import Greeting from '../components/Greeting';
+import ProfilePic from '../components/ProfilePic.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const pageTitle : String = "Home Page";
 
 ---
 
+
+
 <BaseLayout pageTitle={pageTitle}>
-	<h2>Subtitle</h2>
-	<Greeting client:load messages={["Hi", "Hello", "Howdy", "Hey there"]}/>
+	<ProfilePic/>
 </BaseLayout>
