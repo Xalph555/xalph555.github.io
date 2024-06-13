@@ -1,17 +1,18 @@
 ---
 import ProfilePic from '../components/ProfilePic.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import StyledContainer from '../components/reusable/StyledContainer.astro'
+import ProjectCard from '../components/ProjectCard.astro'
 
 const pageTitle : String = "Home Page";
 
 ---
 
-
-
 <BaseLayout pageTitle={pageTitle}>
 	<ProfilePic/>
-	<StyledContainer>
-		The quick brown fox jumped over the lazy dog.
-	</StyledContainer>
+	<ProjectCard 
+		projectTitle="Test Project" 
+		projectImg="../RememberMeFrontPage.gif" 
+		projectDescription="Some description of the project" 
+		projectTechDetails={["Point 1", "Point 2"]}
+	/>
 </BaseLayout>

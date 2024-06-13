@@ -1,0 +1,35 @@
+---
+import StyledContainer from '../components/reusable/StyledContainer.astro'
+
+const { projectTitle, projectImg, projectDescription, projectTechDetails } = Astro.props
+
+---
+
+<style>
+    h3 {
+        margin: 0 0 0.5em 0;
+        font-family: 'Raleway';
+        font-weight: normal;
+        font-size: 1.5em;
+    }
+    .img-container {
+        max-width: 90%;
+        margin: auto;
+    }
+    .responsive-img {
+        width: 100%;
+        height: auto;
+    }
+</style>
+
+<StyledContainer>
+    <h3>{projectTitle}</h3>
+    <div class="img-container">
+        <img class="responsive-img" src={projectImg}>
+    </div>
+    <p>{projectDescription}</p>
+    <b>Key Technical Details</b>
+    <ul>
+        {projectTechDetails.map(detail => <li>{detail}</li>)}
+    </ul>
+</StyledContainer>
