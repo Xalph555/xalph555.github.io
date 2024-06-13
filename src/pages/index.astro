@@ -1,18 +1,125 @@
 ---
-import ProfilePic from '../components/ProfilePic.astro';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import ProjectCard from '../components/ProjectCard.astro'
+import ProfilePic from "../components/ProfilePic.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import StyledContainer from "../components/reusable/StyledContainer.astro";
+import DynamicList from "../components/reusable/DynamicList.astro";
 
-const pageTitle : String = "Home Page";
+const pageTitle: String = "Home Page";
+
+const languages = ["C++", "Python", "Typescript"];
+const gameEngines = ["Godot", "Unreal Engine 5"];
+const tools = ["Trello", "Jira", "Git, GitHub, GitLab, BitBucket", "Clip Studio Paint"];
+const fields = ["Gameplay", "Frontend web", "Backend web"];
 
 ---
 
+<style>
+	h1 {
+		font-size: 2.3em;
+		margin: 0;
+	}
+  #intro {
+    display: flex;
+	gap: 4em;
+	align-items: center;
+	margin-bottom: 1em;
+  }
+
+  #intro h1 {
+	margin: 0.5em 0;
+  }
+
+  /* Skills styles */
+  #skills {
+	margin-bottom: 1.5em;
+  }
+  #skills h2 {
+	margin: 0 0 0.5em 0;
+  }
+  .skills-grid {
+	display: grid;
+	justify-self: center;
+	grid-template-columns: repeat(auto-fit, minmax(11em, 1fr));
+  }
+  
+  /* Project styles */
+  #projects h1 {
+	margin: 0.5em 0;
+  }
+  .projects-grid {
+	display: grid;
+	justify-self: center;
+	gap: 3em;
+	grid-template-columns: repeat(auto-fit, minmax(22em, 1fr));
+  }
+
+  /* Responsive styles */
+  @media screen and (max-width:745px) {
+	#intro {
+    	display: block;
+  	}
+  }
+</style>
+
 <BaseLayout pageTitle={pageTitle}>
-	<ProfilePic/>
-	<ProjectCard 
-		projectTitle="Test Project" 
-		projectImg="../RememberMeFrontPage.gif" 
-		projectDescription="Some description of the project" 
-		projectTechDetails={["Point 1", "Point 2"]}
-	/>
+  <div id="intro">
+    <ProfilePic />
+    <div>
+      <h1>Hi, I'm Sean!</h1>
+      <p>
+        A friendly and highly motivated third year Monash University student
+        studying a Bachelor of Business and Bachelor of IT majoring in Marketing
+        and Game development.
+      </p>
+      <p>
+        With a keen interest in programming and videogames, I have been
+        developing my own games in my spare time, and throughout my degree, to
+        strive towards my career aspirations of working in the games industry as
+        a Gameplay Programmer. I seek to create games that leave a positive
+        impact on others and encourages the creation of open and inclusive
+        communities.
+      </p>
+      <p>
+        I champion a solid work ethic that has enabled me to power through and
+        solve problems, as well as my strong drive to work on creative projects.
+        I am always willing to learn something new and I enjoy collaborating
+        with others.
+      </p>
+    </div>
+  </div>
+  <div id="skills">
+	  <StyledContainer>
+		<h2>Skills</h2>
+		<div class="skills-grid">
+			<DynamicList listTitle="Languages" listItems={languages}/>
+			<DynamicList listTitle="Game Engines" listItems={gameEngines}/>
+			<DynamicList listTitle="Tools" listItems={tools}/>
+			<DynamicList listTitle="Fields" listItems={fields}/>
+		</div>
+	  </StyledContainer>
+  </div>
+  <div id="projects">
+	  <h1>Projects</h1>
+	  <div class="projects-grid">
+		<ProjectCard
+			projectTitle="Test Project"
+			projectImg="../RememberMeFrontPage.gif"
+			projectDescription="Some description of the project"
+			projectTechDetails={["Point 1", "Point 2"]}
+		/>
+		<ProjectCard
+			projectTitle="Test Project"
+			projectImg="../RememberMeFrontPage.gif"
+			projectDescription="Some description of the project"
+			projectTechDetails={["Point 1", "Point 2"]}
+		/>
+		<ProjectCard
+			projectTitle="Test Project"
+			projectImg="../RememberMeFrontPage.gif"
+			projectDescription="Some description of the project"
+			projectTechDetails={["Point 1", "Point 2"]}
+		/>
+	  </div>
+  </div>
 </BaseLayout>

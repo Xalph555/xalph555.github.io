@@ -1,5 +1,7 @@
 ---
 import '../../styles/global.css';
+
+const {class: className, ...rest} = Astro.props;
 ---
 
 <style>
@@ -13,7 +15,7 @@ import '../../styles/global.css';
     }
 </style>
 
-<div class="container">
+<div class:list={['container', className]}>
     <div class="colored-strip"></div>
     <div class="container-contents">
         <slot />
