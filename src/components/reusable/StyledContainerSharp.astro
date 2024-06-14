@@ -1,0 +1,22 @@
+---
+import '../../styles/global.css';
+
+const {class: className, ...rest} = Astro.props;
+---
+
+<style>
+    .container {
+        background-color: #FFFF;
+        box-shadow: 2px 3px 5px #00000052;
+    }
+    .container-contents {
+        padding: 1.2em;
+    }
+</style>
+
+<div class:list={['container', className]}>
+    <div class="colored-strip"></div>
+    <div class="container-contents">
+        <slot />
+    </div>
+</div>

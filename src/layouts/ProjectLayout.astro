@@ -1,0 +1,111 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import StyledContainer from "../components/reusable/StyledContainer.astro";
+import StyledContainerSharp from "../components/reusable/StyledContainerSharp.astro";
+
+const { frontmatter, slug } = Astro.props;
+
+const embedAspectRatio = frontmatter.gameEmbed ? (frontmatter.gameEmbed.width / frontmatter.gameEmbed.height) * 0.98 : 1.0
+
+---
+
+<style define:vars={{embedAspectRatio}}>
+    #breadcrumbs {
+        font-family: 'Raleway';
+        font-size: 1.3em;
+        font-style: italic;
+        margin-top: 1.5em;
+        margin-bottom: 1.5em;
+    }
+    .sub-heading {
+        margin: 0.5em 0 1em 0;
+    }
+
+    #game-preview {
+        margin-bottom: 2em;
+    }
+    #game-preview img {
+        width: 100%;
+        height: auto;
+    }
+    #game-preview iframe {
+        width: 100%;
+        aspect-ratio: var(--embedAspectRatio);
+    }
+
+    #summary {
+        margin-bottom: 2em;
+        display: grid;
+        grid-template-columns: 2fr 1.25fr;
+        gap: 2em;
+    }
+
+    #contact-me {
+        text-align: center;
+        font-size: 1.3em;
+        font-family: 'Raleway';
+        margin-top: 2em;
+    }
+
+    /* Responsive styles */
+    @media screen and (max-width: 800px) {
+        #summary {
+            display: block;
+        }
+        #summary div {
+            margin-bottom: 2em;
+        }
+    }
+</style>
+
+<BaseLayout pageTitle={frontmatter.title}>
+    <div id="breadcrumbs">
+        <a href="/">Home</a> > <a href=`/projects/${slug}`>{frontmatter.title}</a>
+    </div>
+    
+    <h1>{frontmatter.title}</h1>
+    <h2 class="sub-heading">{frontmatter.subtitle}</h2>
+
+    <div id="game-preview">
+        <StyledContainerSharp>
+            {
+                frontmatter.gameEmbed 
+                ?
+                <iframe src={frontmatter.gameEmbed.iframeSrc} allowfullscreen="" title={frontmatter.title}>
+                    <a href={frontmatter.gameEmbed.url}>Play {frontmatter.title} on itch.io</a>
+                </iframe> 
+                :
+                <img src={frontmatter.heroImage.url} alt={frontmatter.heroImage.alt}>
+            }
+            
+        </StyledContainerSharp>
+    </div>
+
+    <div id="summary">
+        <div>
+            <h2>Summary</h2>
+            <p>{frontmatter.summary}</p>
+        </div>
+        <StyledContainer>
+            <b>Specifications</b>
+            <ul>
+                {frontmatter.specifications.map(spec => <li>{spec}</li>)}
+            </ul>
+            <b>Links</b>
+            <ul>
+                {frontmatter.links.itchio && <li>[o] <a href={frontmatter.links.itchio} target="_blank">itch.io</a></li>}
+                {frontmatter.links.github && <li>[o] <a href={frontmatter.links.github} target="_blank">GitHub</a></li>}
+                {frontmatter.links.bitbucket && <li>[o] <a href={frontmatter.links.bitbucket} target="_blank">BitBucket</a></li>}
+                {frontmatter.links.techDocs && <li>[o] <a href={frontmatter.links.techDocs} target="_blank">Technical Documentation</a></li>}
+            </ul>
+        </StyledContainer>
+    </div>
+
+    <slot />
+
+    <div id="contact-me">
+        <StyledContainer>
+            Like what I do or want to get in touch? Feel free to <a href="">contact me</a>!
+        </StyledContainer>
+    </div>
+</BaseLayout>

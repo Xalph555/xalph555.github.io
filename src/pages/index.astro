@@ -1,4 +1,5 @@
 ---
+import { getCollection } from 'astro:content';
 import ProfilePic from "../components/ProfilePic.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ProjectCard from "../components/ProjectCard.astro";
@@ -9,56 +10,60 @@ const pageTitle: String = "Home Page";
 
 const languages = ["C++", "Python", "Typescript"];
 const gameEngines = ["Godot", "Unreal Engine 5"];
-const tools = ["Trello", "Jira", "Git, GitHub, GitLab, BitBucket", "Clip Studio Paint"];
+const tools = [
+  "Trello",
+  "Jira",
+  "Git, GitHub, GitLab, BitBucket",
+  "Clip Studio Paint",
+];
 const fields = ["Gameplay", "Frontend web", "Backend web"];
+
+const projects = await getCollection('projects');
 
 ---
 
 <style>
-	h1 {
-		font-size: 2.3em;
-		margin: 0;
-	}
   #intro {
     display: flex;
-	gap: 4em;
-	align-items: center;
-	margin-bottom: 1em;
+    gap: 4em;
+    align-items: center;
+    margin-bottom: 1em;
   }
 
   #intro h1 {
-	margin: 0.5em 0;
+    margin: 0.5em 0;
   }
 
   /* Skills styles */
   #skills {
-	margin-bottom: 1.5em;
+    margin-bottom: 1.5em;
   }
   #skills h2 {
-	margin: 0 0 0.5em 0;
+    margin: 0 0 0.5em 0;
   }
   .skills-grid {
-	display: grid;
-	justify-self: center;
-	grid-template-columns: repeat(auto-fit, minmax(11em, 1fr));
+    display: grid;
+    justify-self: center;
+    align-self: center;
+    grid-template-columns: repeat(auto-fit, minmax(12em, 1fr));
   }
-  
+
   /* Project styles */
   #projects h1 {
-	margin: 0.5em 0;
+    margin: 0.5em 0;
   }
   .projects-grid {
-	display: grid;
-	justify-self: center;
-	gap: 3em;
-	grid-template-columns: repeat(auto-fit, minmax(22em, 1fr));
+    display: grid;
+    justify-self: center;
+    gap: 3em;
+    grid-template-columns: repeat(auto-fit, minmax(22em, 1fr));
   }
 
   /* Responsive styles */
-  @media screen and (max-width:745px) {
-	#intro {
-    	display: block;
-  	}
+  @media screen and (max-width: 745px) {
+    #intro {
+      display: block;
+    }
   }
 </style>
 
@@ -89,37 +94,22 @@ const fields = ["Gameplay", "Frontend web", "Backend web"];
     </div>
   </div>
   <div id="skills">
-	  <StyledContainer>
-		<h2>Skills</h2>
-		<div class="skills-grid">
-			<DynamicList listTitle="Languages" listItems={languages}/>
-			<DynamicList listTitle="Game Engines" listItems={gameEngines}/>
-			<DynamicList listTitle="Tools" listItems={tools}/>
-			<DynamicList listTitle="Fields" listItems={fields}/>
-		</div>
-	  </StyledContainer>
+    <StyledContainer>
+      <h2>Skills</h2>
+      <div class="skills-grid">
+        <DynamicList listTitle="Languages" listItems={languages} />
+        <DynamicList listTitle="Game Engines" listItems={gameEngines} />
+        <DynamicList listTitle="Tools" listItems={tools} />
+        <DynamicList listTitle="Fields" listItems={fields} />
+      </div>
+    </StyledContainer>
   </div>
   <div id="projects">
-	  <h1>Projects</h1>
-	  <div class="projects-grid">
-		<ProjectCard
-			projectTitle="Test Project"
-			projectImg="../RememberMeFrontPage.gif"
-			projectDescription="Some description of the project"
-			projectTechDetails={["Point 1", "Point 2"]}
-		/>
-		<ProjectCard
-			projectTitle="Test Project"
-			projectImg="../RememberMeFrontPage.gif"
-			projectDescription="Some description of the project"
-			projectTechDetails={["Point 1", "Point 2"]}
-		/>
-		<ProjectCard
-			projectTitle="Test Project"
-			projectImg="../RememberMeFrontPage.gif"
-			projectDescription="Some description of the project"
-			projectTechDetails={["Point 1", "Point 2"]}
-		/>
-	  </div>
+    <h1>Projects</h1>
+    <div class="projects-grid">
+      {
+        projects.map(project => <ProjectCard projectFrontmatter={project.data} slug={project.slug}/>)
+      }
+    </div>
   </div>
 </BaseLayout>
