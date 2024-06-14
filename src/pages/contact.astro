@@ -1,0 +1,35 @@
+---
+import StyledContainer from "../components/reusable/StyledContainer.astro"
+import BaseLayout from "../layouts/BaseLayout.astro"
+
+const pageTitle = "Contact";
+---
+<style>
+    h1 {
+        margin-bottom: 1em;
+    }
+
+    #contacts {
+        width: min(100%, 500px);
+    }
+</style>
+
+<BaseLayout pageTitle={pageTitle}>
+    <div id="breadcrumbs">
+        <a href="/">Home</a> > <a href=`/contact`>Contact</a>
+    </div>
+
+    <h1>Contact Me</h1>
+
+    <div id="contacts">
+        <StyledContainer>
+            <ul>
+                <li><a href="mailto:sean.winglim@gmail.com">sean.winglim@gmail.com</a></li>
+                <li><a href="https://au.linkedin.com/in/sean-wl-lee">/sean-wl-lee</a></li>
+                <li><a href="https://x.com/xalph555">@xalph555</a></li>
+                <li><a href="https://github.com/Xalph555">Xalph555</a></li>
+                <li><a href="https://xalph555.itch.io/">XalphFive</a></li>
+            </ul>
+        </StyledContainer>
+    </div>
+</BaseLayout>

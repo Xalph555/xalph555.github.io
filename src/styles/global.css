@@ -3,6 +3,7 @@ html {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 100%;
 	color: #28262C;
+	scroll-behavior: smooth;
 }
 
 body {
@@ -30,4 +31,12 @@ a {
 	background-color: #FFDE5C;
 	width: 100%;
 	height: 10px;
+}
+
+#breadcrumbs {
+	font-family: 'Raleway';
+	font-size: 1.3em;
+	font-style: italic;
+	margin-top: 1.5em;
+	margin-bottom: 1.5em;
 }
