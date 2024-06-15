@@ -2,6 +2,7 @@
 import BaseLayout from "./BaseLayout.astro";
 import StyledContainer from "../components/reusable/StyledContainer.astro";
 import StyledContainerSharp from "../components/reusable/StyledContainerSharp.astro";
+import IconDotPoint from "../components/reusable/IconDotPoint.astro";
 
 const { frontmatter, slug } = Astro.props;
 
@@ -31,6 +32,17 @@ const embedAspectRatio = frontmatter.gameEmbed ? (frontmatter.gameEmbed.width / 
         display: grid;
         grid-template-columns: 2fr 1.25fr;
         gap: 2em;
+    }
+    #summary ul.links{
+        list-style-type: none;
+        margin: 0 0.5em;
+        padding: 0;
+    }
+    #summary .links li:first-child {
+        margin-top: 1em;
+    }
+    #summary .links li:not(:last-child) {
+        margin-bottom: 1.5em;
     }
 
     #contact-me {
@@ -85,11 +97,51 @@ const embedAspectRatio = frontmatter.gameEmbed ? (frontmatter.gameEmbed.width / 
                 {frontmatter.specifications.map(spec => <li>{spec}</li>)}
             </ul>
             <b>Links</b>
-            <ul>
-                {frontmatter.links.itchio && <li>[o] <a href={frontmatter.links.itchio} target="_blank">itch.io</a></li>}
-                {frontmatter.links.github && <li>[o] <a href={frontmatter.links.github} target="_blank">GitHub</a></li>}
-                {frontmatter.links.bitbucket && <li>[o] <a href={frontmatter.links.bitbucket} target="_blank">BitBucket</a></li>}
-                {frontmatter.links.techDocs && <li>[o] <a href={frontmatter.links.techDocs} target="_blank">Technical Documentation</a></li>}
+            <ul class="links">
+                {frontmatter.links.itchio && 
+                    <li>
+                        <IconDotPoint 
+                            iconClass="fa-brands fa-itch-io"
+                            srIconName="itch.io"
+                            iconSize="2.5em"
+                            link={frontmatter.links.itchio}
+                            text="itch.io"
+                        />
+                    </li>
+                }
+                {frontmatter.links.github && 
+                    <li>
+                        <IconDotPoint 
+                            iconClass="fa-brands fa-github"
+                            srIconName="GitHub"
+                            iconSize="2.5em"
+                            link={frontmatter.links.github}
+                            text="GitHub"
+                        />
+                    </li>
+                }
+                {frontmatter.links.bitbucket && 
+                    <li>
+                        <IconDotPoint 
+                            iconClass="fa-brands fa-bitbucket"
+                            srIconName="BitBucket"
+                            iconSize="2.5em"
+                            link={frontmatter.links.bitbucket}
+                            text="BitBucket"
+                        />
+                    </li>
+                }
+                {frontmatter.links.techDocs && 
+                    <li>
+                        <IconDotPoint 
+                            iconClass="fa-solid fa-file-lines"
+                            srIconName="Technical Documentation"
+                            iconSize="2.5em"
+                            link={frontmatter.links.techDocs}
+                            text="Technical Documentation"
+                        />
+                    </li>
+                }
             </ul>
         </StyledContainer>
     </div>

@@ -1,6 +1,7 @@
 ---
 import StyledContainer from "../components/reusable/StyledContainer.astro"
 import BaseLayout from "../layouts/BaseLayout.astro"
+import IconDotPoint from "../components/reusable/IconDotPoint.astro";
 
 const pageTitle = "Contact";
 ---
@@ -10,7 +11,15 @@ const pageTitle = "Contact";
     }
 
     #contacts {
-        width: min(100%, 500px);
+        width: min(100%, 450px);
+    }
+    #contacts ul {
+        list-style-type: none;
+        margin: 0 0.5em;
+        padding: 0;
+    }
+    #contacts li:not(:last-child) {
+        margin-bottom: 2em;
     }
 </style>
 
@@ -24,11 +33,51 @@ const pageTitle = "Contact";
     <div id="contacts">
         <StyledContainer>
             <ul>
-                <li><a href="mailto:sean.winglim@gmail.com">sean.winglim@gmail.com</a></li>
-                <li><a href="https://au.linkedin.com/in/sean-wl-lee">/sean-wl-lee</a></li>
-                <li><a href="https://x.com/xalph555">@xalph555</a></li>
-                <li><a href="https://github.com/Xalph555">Xalph555</a></li>
-                <li><a href="https://xalph555.itch.io/">XalphFive</a></li>
+                <li>
+                    <IconDotPoint 
+                        iconClass="fa-solid fa-envelope"
+                        srIconName="Email"
+                        iconSize="3em"
+                        link="mailto:sean.winglim@gmail.com"
+                        text="sean.winglim@gmail.com"
+                    />
+                </li>
+                <li>
+                    <IconDotPoint 
+                        iconClass="fa-brands fa-linkedin"
+                        srIconName="LinkedIn"
+                        iconSize="3em"
+                        link="https://au.linkedin.com/in/sean-wl-lee"
+                        text="/sean-wl-lee"
+                    />
+                </li>
+                <li>
+                    <IconDotPoint 
+                        iconClass="fa-brands fa-square-x-twitter"
+                        srIconName="X"
+                        iconSize="3em"
+                        link="https://x.com/xalph555"
+                        text="@xalph555"
+                    />
+                </li>
+                <li>
+                    <IconDotPoint 
+                        iconClass="fa-brands fa-github"
+                        srIconName="GitHub"
+                        iconSize="3em"
+                        link="https://github.com/Xalph555"
+                        text="Xalph555"
+                    />
+                </li>
+                <li>
+                    <IconDotPoint 
+                        iconClass="fa-brands fa-itch-io"
+                        srIconName="itch.io"
+                        iconSize="3em"
+                        link="https://xalph555.itch.io/"
+                        text="XalphFive"
+                    />
+                </li>
             </ul>
         </StyledContainer>
     </div>

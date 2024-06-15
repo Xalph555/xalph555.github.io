@@ -28,8 +28,9 @@ specifications:
     - Specification 5
 links:
     itchio: 'A link to itch'
-    github: ''
-    techDocs: ''
+    github: 'A link to itch'
+    techDocs: 'A link to itch'
+    bitbucket: 'A link to itch'
 summary: 'This is the summary of this post. An introduction of sorts.'
 ---
 
