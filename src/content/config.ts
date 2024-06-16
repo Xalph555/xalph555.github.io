@@ -20,6 +20,7 @@ const projectCollection = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
+    projectDate: z.date(),
     cardImage: z.object({
       url: z.string(),
       alt: z.string(),

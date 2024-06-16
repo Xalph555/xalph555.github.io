@@ -18,6 +18,12 @@ const { iconClass, srIconName, iconSize, link, text } = Astro.props;
     a {
         align-self: center;
     }
+
+    @media screen and (max-width: 375px) {
+        a {
+            font-size: 0.9em;
+        }
+    }
 </style>
 
 <div>

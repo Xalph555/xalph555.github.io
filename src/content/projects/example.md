@@ -1,5 +1,6 @@
 ---
 title: 'Example Project'
+projectDate: 2024-05-01
 # Card properties
 cardImage:
     url: '../RememberMeFrontPage.gif'

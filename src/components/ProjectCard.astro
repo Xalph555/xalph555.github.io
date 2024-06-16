@@ -8,11 +8,14 @@ const cardHighlightColor = '#ffffffcc';
 ---
 
 <style define:vars={{cardHighlightColor}}>
-    a {
+    a.post-container {
         text-decoration: none;
     }
     .post-container {
-        position:relative;
+        position: relative;
+    }
+    .post-container a {
+        text-decoration: underline;
     }
     .card-highlight {
         position: absolute;
@@ -43,6 +46,7 @@ const cardHighlightColor = '#ffffffcc';
         font-size: 1.5em;
     }
     .img-container {
+        min-width: none;
         max-width: 90%;
         margin: auto;
     }
@@ -53,8 +57,12 @@ const cardHighlightColor = '#ffffffcc';
 </style>
 
 <StyledContainer>
-    <a class="post-container" href=`/projects/${slug}`>
-        <h2>{projectFrontmatter.title}</h2>
+    <div class="post-container" >
+        <h2>
+            <a href=`/projects/${slug}`>
+                {projectFrontmatter.title}
+            </a>
+        </h2>
         <div class="img-container">
             <img class="responsive-img" src={projectFrontmatter.cardImage.url} alt={projectFrontmatter.cardImage.alt}>
         </div>
@@ -63,6 +71,6 @@ const cardHighlightColor = '#ffffffcc';
         <ul>
             {projectFrontmatter.techDetails.map(detail => <li>{detail}</li>)}
         </ul>
-        <div class="card-highlight"><span>Read More</span></div>
-    </a>
+        <a class="card-highlight" href=`/projects/${slug}`><span>Read More</span></a>
+    </div>
 </StyledContainer>

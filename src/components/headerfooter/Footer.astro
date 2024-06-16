@@ -25,7 +25,16 @@ import FooterNavigation from "./FooterNavigation.astro";
   .footer-name {
     margin-right: auto;
   }
+  @media screen and (max-width: 575px) {
+      .footer-content {
+        display: block;
+      }
 
+      .footer-name {
+        text-align: center;
+        margin: 1em;
+      }
+  }
 </style>
 
 <footer>
