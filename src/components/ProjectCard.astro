@@ -58,7 +58,7 @@ const cardHighlightColor = "#ffffffcc";
 <StyledContainer>
 	<div class="post-container">
 		<h2>
-			<a href=`/Portfolio/projects/${slug}`>
+			<a href=`/projects/${slug}`>
 				{projectFrontmatter.title}
 			</a>
 		</h2>
@@ -74,7 +74,7 @@ const cardHighlightColor = "#ffffffcc";
 		<ul>
 			{projectFrontmatter.techDetails.map((detail: string[]) => <li>{detail}</li>)}
 		</ul>
-		<a class="card-highlight" href=`/Portfolio/projects/${slug}`><span>Read More</span></a
+		<a class="card-highlight" href=`/projects/${slug}`><span>Read More</span></a
 		>
 	</div>
 </StyledContainer>
