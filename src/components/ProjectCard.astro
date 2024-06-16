@@ -1,76 +1,80 @@
 ---
-import StyledContainer from '../components/reusable/StyledContainer.astro'
+import StyledContainer from "../components/reusable/StyledContainer.astro";
 
-const { projectFrontmatter, slug } = Astro.props
+const { projectFrontmatter, slug } = Astro.props;
 
-const cardHighlightColor = '#ffffffcc';
-
+const cardHighlightColor = "#ffffffcc";
 ---
 
-<style define:vars={{cardHighlightColor}}>
-    a.post-container {
-        text-decoration: none;
-    }
-    .post-container {
-        position: relative;
-    }
-    .post-container a {
-        text-decoration: underline;
-    }
-    .card-highlight {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top:0;
-        left:0;
-        opacity: 0;
-        transition: 0.3s;
-        display: flex;
-        align-items: end;
-        justify-content: center;
-    }
-    .card-highlight:hover {
-        background-color: var(--cardHighlightColor);
-        box-shadow: 0 0 5px 10px var(--cardHighlightColor);
-        opacity: 1;
-    }
-    .card-highlight span {
-        font-size: 1.5em;
-        font-weight: bold;
-        text-decoration: underline;
-    }
-    h2 {
-        margin: 0 0 0.5em 0;
-        font-family: 'Raleway';
-        font-weight: normal;
-        font-size: 1.5em;
-    }
-    .img-container {
-        min-width: none;
-        max-width: 90%;
-        margin: auto;
-    }
-    .responsive-img {
-        width: 100%;
-        height: auto;
-    }
+<style define:vars={{ cardHighlightColor }}>
+	a.post-container {
+		text-decoration: none;
+	}
+	.post-container {
+		position: relative;
+	}
+	.post-container a {
+		text-decoration: underline;
+	}
+	.card-highlight {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		opacity: 0;
+		transition: 0.3s;
+		display: flex;
+		align-items: end;
+		justify-content: center;
+	}
+	.card-highlight:hover {
+		background-color: var(--cardHighlightColor);
+		box-shadow: 0 0 5px 10px var(--cardHighlightColor);
+		opacity: 1;
+	}
+	.card-highlight span {
+		font-size: 1.5em;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	h2 {
+		margin: 0 0 0.5em 0;
+		font-family: "Raleway";
+		font-weight: normal;
+		font-size: 1.5em;
+	}
+	.img-container {
+		min-width: none;
+		max-width: 90%;
+		margin: auto;
+	}
+	.responsive-img {
+		width: 100%;
+		height: auto;
+	}
 </style>
 
 <StyledContainer>
-    <div class="post-container" >
-        <h2>
-            <a href=`/projects/${slug}`>
-                {projectFrontmatter.title}
-            </a>
-        </h2>
-        <div class="img-container">
-            <img class="responsive-img" src={projectFrontmatter.cardImage.url} alt={projectFrontmatter.cardImage.alt}>
-        </div>
-        <p>{projectFrontmatter.description}</p>
-        <b>Key Technical Details</b>
-        <ul>
-            {projectFrontmatter.techDetails.map(detail => <li>{detail}</li>)}
-        </ul>
-        <a class="card-highlight" href=`/projects/${slug}`><span>Read More</span></a>
-    </div>
+	<div class="post-container">
+		<h2>
+			<a href=`/projects/${slug}`>
+				{projectFrontmatter.title}
+			</a>
+		</h2>
+		<div class="img-container">
+			<img
+				class="responsive-img"
+				src={projectFrontmatter.cardImage.url}
+				alt={projectFrontmatter.cardImage.alt}
+			/>
+		</div>
+		<p>{projectFrontmatter.description}</p>
+		<b>Key Technical Details</b>
+		<ul>
+			{projectFrontmatter.techDetails.map((detail) => <li>{detail}</li>)}
+		</ul>
+		<a class="card-highlight" href=`/projects/${slug}`><span>Read More</span></a
+		>
+	</div>
 </StyledContainer>

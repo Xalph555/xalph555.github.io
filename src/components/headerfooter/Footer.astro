@@ -3,47 +3,47 @@ import FooterNavigation from "./FooterNavigation.astro";
 ---
 
 <style>
-  footer {
-    margin-top: 5em;
-    background-color: #ffff;
-    padding: 1em;
-    font-family: 'Raleway';
-    padding: 0;
-    box-shadow: 0 -1px 2px #00000052;
-  }
+	footer {
+		margin-top: 5em;
+		background-color: #ffff;
+		padding: 1em;
+		font-family: "Raleway";
+		padding: 0;
+		box-shadow: 0 -1px 2px #00000052;
+	}
 
-  .footer-content {
-    margin: 0 auto;
-    width: 100%;
-    max-width: min(80%, 1000px);
-    min-height: 5em;
-    display: flex;
-    align-items: center;
-    font-size: 1.2em;
-  }
+	.footer-content {
+		margin: 0 auto;
+		width: 100%;
+		max-width: min(80%, 1000px);
+		min-height: 5em;
+		display: flex;
+		align-items: center;
+		font-size: 1.2em;
+	}
 
-  .footer-name {
-    margin-right: auto;
-  }
-  @media screen and (max-width: 575px) {
-      footer {
-        padding-bottom: 1em;
-      }
-      .footer-content {
-        display: block;
-      }
+	.footer-name {
+		margin-right: auto;
+	}
+	@media screen and (max-width: 575px) {
+		footer {
+			padding-bottom: 1em;
+		}
+		.footer-content {
+			display: block;
+		}
 
-      .footer-name {
-        text-align: center;
-        margin: 1em;
-      }
-  }
+		.footer-name {
+			text-align: center;
+			margin: 1em;
+		}
+	}
 </style>
 
 <footer>
-  <div class="colored-strip"></div>
-  <div class="footer-content">
-    <div class="footer-name">Sean Lee | 2024</div>
-    <FooterNavigation />
-  </div>
+	<div class="colored-strip"></div>
+	<div class="footer-content">
+		<div class="footer-name">Sean Lee | 2024</div>
+		<FooterNavigation />
+	</div>
 </footer>

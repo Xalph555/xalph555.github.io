@@ -1,11 +1,10 @@
 ---
-
-const {listTitle, listItems} = Astro.props;
+const { listTitle, listItems } = Astro.props;
 ---
 
 <div>
-    <b>{listTitle}</b>
-    <ul>
-        {listItems.map(item => <li>{item}</li>)}
-    </ul>
+  <b>{listTitle}</b>
+  <ul>
+    {listItems.map((item) => <li>{item}</li>)}
+  </ul>
 </div>

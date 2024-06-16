@@ -1,32 +1,31 @@
 ---
 const { iconClass, srIconName, iconSize, link, text } = Astro.props;
-
 ---
 
-<style define:vars={{iconSize}}>
-    div {
-        display: grid;
-        grid-template-columns: var(--iconSize) 1fr;
-        gap: 1em;
-    }
+<style define:vars={{ iconSize }}>
+  div {
+    display: grid;
+    grid-template-columns: var(--iconSize) 1fr;
+    gap: 1em;
+  }
 
-    i {
-        font-size: var(--iconSize);
-        justify-self: center;
-    }
+  i {
+    font-size: var(--iconSize);
+    justify-self: center;
+  }
 
+  a {
+    align-self: center;
+  }
+
+  @media screen and (max-width: 375px) {
     a {
-        align-self: center;
+      font-size: 0.9em;
     }
-
-    @media screen and (max-width: 375px) {
-        a {
-            font-size: 0.9em;
-        }
-    }
+  }
 </style>
 
 <div>
-    <i class={iconClass}><span class="sr-only">{srIconName}</span></i>
-    <a href={link}>{text}</a>
+  <i class={iconClass}><span class="sr-only">{srIconName}</span></i>
+  <a href={link}>{text}</a>
 </div>
