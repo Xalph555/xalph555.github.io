@@ -1,0 +1,198 @@
+---
+title: "Claret (2020)"
+projectDate: 2020-10-01
+
+# Card properties
+cardImage:
+  url: "../claret/boss_example.gif"
+  alt: "Princess battles gauntlet wielding enemy"
+description: "Play as Essence Weaver, Princess Abigail Claret-heart, as she battles her way through the Exiled forces invading her Kingdom in this short top-down 2D fantasy RPG. Find their leader, Kahn Salvart, and defeat him to drive the Exiled back and restore peace and order to the land."
+techDetails:
+  - My major assessment piece for a media studies class in high school
+  - Made in Godot
+  - Solo developed with the exception of the sound effects, music, and fonts
+
+# Page properties
+subtitle: "High school Major Assignment"
+heroImage:
+  url: "../claret/boss_example.gif"
+  alt: "Princess battles gauntlet wielding enemy"
+specifications:
+  - "Platform: Windows"
+  - "Project Duration: 7 months"
+  - "Made in Godot"
+  - "Genre: RPG, Top-down, 2D, Pixel art, Fantasy"
+links:
+  itchio: "https://xalph555.itch.io/claret"
+summary:
+  - "This was my major assessment piece for a high school media class where we were assigned to create a piece of media that conveyed a unique narrative in order to assess our understanding of the production lifecycle for a piece of media (i.e. preproduction, production, and post-production). We had seven months to complete the assessment."
+  - "While most of my peers choose to create short films or photography collections, I decided to challenge myself and use this assessment as an excuse to start and finish my first major game project as there was no restriction on the medium of media we could used. I felt that this assessment provided an excellent opportunity to experience the entire game development process, as well as allowing me to learn how to properly scope and develop a complete game."
+  - "Unfortunately, as this class primarily focused on film and photography, I knew I would not be able to get much support for my project if I encountered any issues. Moreover, this assessment was being completed during the peak of the Covid-19 pandemic in 2020 where work/ learn from home arrangement were being adopted for the first time."
+---
+
+import BlogImage from "../../components/reusable/BlogImage.astro";
+
+## Goals
+
+- Complete the assessment while meeting all of the marking criteria
+
+- Gain experience in working with the game development lifecycle
+
+- Learn to appropriately scope and plan a game project to meet pre-set deadlines
+
+- Start and complete my first major game project
+
+## Game Design
+
+### Vision
+
+**Narrative**:
+
+I wanted to convey a story about a character who puts too pressure on themselves to meet their own high expectations, and the expectation of others, and eventually learns that it is necessary to forgive themselves to be able to properly grow as a person. It is essentially a message to those who overwork themselves to remind them that they need to take a break every so often to avoid burnout. This narrative was conveyed through the fantasy genre as I felt that it was the most appropriate genre to work with at the time for this type of story, and the one I felt the most comfortable working in.
+
+**Gameplay**:
+
+The core idea behind the gameplay of Claret was to allow the player to immerse themselves in a story where they assume the role of a powerful mage who blends martial arts with a unique source of energy they can conjure. I wanted to adopt a traditional top-down JRPG style of play with simple controls to allow the player to equally focus on the story and the game.
+
+### Dialogue and Cut Scenes
+
+A custom dialogue system was created in Godot to be able to display the conversations between characters, and which was used in conjunction with an Animation node and the level manager within each level to produce the game’s cut scenes.
+
+<BlogImage
+	imgSrc="../claret/Dialogue System Highlights.png"
+	imgAlt="Dialogue set up in editor"
+	imgCaption="Dialogue set up in editor"
+/>
+
+Displaying the required lines of dialogue on-screen was handled by the main dialogue UI node, which had functions to advance the dialogue as well as custom signals to allow other nodes to know when a certain line had been fully displayed or when the whole conversation had ended.
+
+A JSON file was used to hold the required dialogue for each scene to make it easier to import into Godot. Each line of dialogue was accompanied by the name of the speaking character, as well as how fast the dialogue should progress (slow, normal, fast). These JSON files would then be set through an exposed variable in the main dialogue UI node for the corresponding level, and each line would be accessed via its index.
+
+<BlogImage
+	imgSrc="../claret/JSON file example.png"
+	imgAlt="Dialogue JSON file example"
+	imgCaption="Dialogue JSON file example"
+/>
+
+The animation for the cut scenes were created using an Animation node and controlled via the level manager where the main dialogue UI node was also connected to. Since the level manager controlled both the dialogue and the animation node, it ensured that the right animations played at the right times by keeping track of the current dialogue index from the main dialogue UI node.
+
+There are some flaws with this system however that could be addressed to improve it for future use:
+
+- Many moving parts are required to be set up before a cut scene can be created and played. This could be simplified to make it more efficient to use
+
+- As everything is being controlled via the cut scene level manager, creating new cut scenes requires modification of its code which makes it complex to use – especially those who are unfamiliar with programming
+
+## UI Design
+
+As the focus of RPGs is typically the story and the environment of the game, a minimal design for the UI was adopted.
+
+The player HUD only displayed what was required - health, mana, and the player’s abilities.
+
+<BlogImage
+	imgSrc="../claret/Player UI in game.png"
+	imgAlt="Player in-game UI"
+	imgCaption="Player in-game UI"
+/>
+
+The dialogue UI only displayed the dialogue box as well as two black bars on the top and bottom of the screen to emulate a cinema screen effect. The dialogue box was also partially transparent to allow the player to see more of the cut scene.
+
+<BlogImage
+	imgSrc="../claret/DialogueUI in game.PNG"
+	imgAlt="Dialogue UI"
+	imgCaption="Dialogue UI"
+/>
+
+## Enemy AI
+
+Four different types of enemies were included in the game, in addition to the boss (Kahn himself), to add variety to the different levels. All their behaviour were handled by a simple state machine and implemented using an Enum defining all of their states, a switch statement to determine the correct state behaviour to execute, and functions which defined the actual behaviour of the different states. Switching between states was controlled via Area2D nodes (which essentially served as the AI’s senses), as well as Timer nodes. Each state an enemy had typically had an animation associated with it.
+
+<BlogImage
+	imgSrc="../claret/Slime statemachine.png"
+	imgWidth="40%"
+	imgAlt="Switch statement for state machine control"
+	imgCaption="Switch statement for state machine control"
+/>
+
+**Enemies and their behaviour**:
+
+_Slime_:
+
+- Moves slowly towards the player and performs a short-ranged melee attack when they are close enough
+
+<BlogImage
+	imgSrc="../claret/slime_attack.gif"
+	imgAlt="Slime behaviour"
+	imgCaption="Slime behaviour"
+/>
+
+_Spinner_:
+
+- Once it starts targeting the player, it will curl up in a ball and being to spin before attacking the player by dashing at high speed towards them. When the Spinner starts dashing, it cannot change its dash direction until it comes to a stop
+
+<BlogImage
+	imgSrc="../claret/rolling_enemies.gif"
+	imgAlt="Spinner behaviour"
+	imgCaption="Spinner behaviour"
+/>
+
+_Bear Ape_:
+
+- A large slow-moving enemy that deals damage in a small area around it by slamming its fists into the ground to create a shockwave if the player is close enough
+
+<BlogImage
+	imgSrc="../claret/Bear Ape attack.gif"
+	imgAlt="Bear Ape behaviour"
+	imgCaption="Bear Ape behaviour"
+/>
+
+_Exiled Grunt_:
+
+- One of Kahn’s followers who wields an energised axe to attack the player after charging their attack for a short period of time
+
+<BlogImage
+	imgSrc="../claret/exiled_enemies.gif"
+	imgAlt="Exiled Grunt behaviour"
+	imgCaption="Exiled Grunt behaviour"
+/>
+
+_Boss (Kahn)_:
+
+- A boss who will continuously chase and attack the player using one of their three attacks which are randomly chosen. There is a delay between attacks.
+
+- Attack 1: Charged Punch – Kahn charges his fist for a short period of time before pushing forward and dashing towards the player
+
+- Attack 2: Punch Flurry – quickly approaches the player before unleashing a rapid barrage of punches after a short delay
+
+- Attack 3: Shockwave – after a longer delay and charge time, Kahn slams his fists into the ground dealing damage in a large area around him in the form of an energised shockwave
+
+<BlogImage
+	imgSrc="../claret/KahnAttack1.gif"
+	imgAlt="Kahn Attack 1"
+	imgCaption="Kahn Attack 1"
+/>
+
+<BlogImage
+	imgSrc="../claret/KahnAttack2.gif"
+	imgAlt="Kahn Attack 2"
+	imgCaption="Kahn Attack 2"
+/>
+
+<BlogImage
+	imgSrc="../claret/KahnAttack3.gif"
+	imgAlt="Kahn Attack 3"
+	imgCaption="Kahn Attack 3"
+/>
+
+Due to the way the simple state machines were implemented, the main file for each of the enemies became very lengthy by the project’s completion and a little disorganised. In the future, I would choose to implement a more complex finite state machine for enemy AI should I use this design pattern. If applied correctly, it would enable me to implement and control the different states of an entity more easily while also decoupling and better organising my code base.
+
+## Reflection
+
+Seeing as this was my first major game project, albeit for a high school assessment, I was fairly happy with the final product especially considering the circumstances at the time. I was able to complete the game with minimal cuts and compromises, and learnt a lot about developing games and the processes involved. Furthermore, I was able to expand my general programming and project management skills which I will be utilising for my future endeavours.
+
+There are some things I would do differently for future projects however:
+
+- Allow myself to be a little more ambitious with some of my ideas and not stick too rigidly to established codes and conventions just because they are easier to implement
+
+- Avoid making levels unnecessarily large when there is insufficient content to fill them
+
+- For games with a strong emphasis on story; I need to more thoroughly plan the pacing of my game’s narrative to be able to convey it in the most effective manner and to achieve the desired impact

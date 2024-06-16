@@ -1,0 +1,23 @@
+---
+const { imgSrc, imgWidth="80%", imgAlt, imgCaption } = Astro.props
+---
+
+<style define:vars={{ imgWidth }}>
+    div {
+        
+    }
+    img {
+        width: var(--imgWidth);
+        height: auto;
+        margin: auto;
+        display: block;
+    }
+    p {
+        text-align: center;
+    }
+</style>
+
+<div>
+    <img src={imgSrc} alt={imgAlt}/>
+    <p><i>{imgCaption}</i></p>
+</div>

@@ -34,7 +34,8 @@ const projectCollection = defineCollection({
 			bitbucket: z.string().optional(),
 			techDocs: z.string().optional(),
 		}),
-		summary: z.string(),
+		// summary: z.string(),
+		summary: z.array(z.string()),
 	}),
 });
 // Export a single `collections` object to register your collection(s)
