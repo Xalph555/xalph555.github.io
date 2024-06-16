@@ -59,7 +59,7 @@ The core idea behind the gameplay of Claret was to allow the player to immerse t
 A custom dialogue system was created in Godot to be able to display the conversations between characters, and which was used in conjunction with an Animation node and the level manager within each level to produce the game’s cut scenes.
 
 <BlogImage
-	imgSrc="/Portfolio/claret/Dialogue System Highlights.png"
+	imgSrc="../claret/Dialogue System Highlights.png"
 	imgAlt="Dialogue set up in editor"
 	imgCaption="Dialogue set up in editor"
 />
@@ -69,7 +69,7 @@ Displaying the required lines of dialogue on-screen was handled by the main dial
 A JSON file was used to hold the required dialogue for each scene to make it easier to import into Godot. Each line of dialogue was accompanied by the name of the speaking character, as well as how fast the dialogue should progress (slow, normal, fast). These JSON files would then be set through an exposed variable in the main dialogue UI node for the corresponding level, and each line would be accessed via its index.
 
 <BlogImage
-	imgSrc="/Portfolio/claret/JSON file example.png"
+	imgSrc="../claret/JSON file example.png"
 	imgAlt="Dialogue JSON file example"
 	imgCaption="Dialogue JSON file example"
 />
@@ -89,7 +89,7 @@ As the focus of RPGs is typically the story and the environment of the game, a m
 The player HUD only displayed what was required - health, mana, and the player’s abilities.
 
 <BlogImage
-	imgSrc="/Portfolio/claret/Player UI in game.png"
+	imgSrc="../claret/Player UI in game.png"
 	imgAlt="Player in-game UI"
 	imgCaption="Player in-game UI"
 />
@@ -97,7 +97,7 @@ The player HUD only displayed what was required - health, mana, and the player�
 The dialogue UI only displayed the dialogue box as well as two black bars on the top and bottom of the screen to emulate a cinema screen effect. The dialogue box was also partially transparent to allow the player to see more of the cut scene.
 
 <BlogImage
-	imgSrc="/Portfolio/claret/DialogueUI in game.PNG"
+	imgSrc="../claret/DialogueUI in game.PNG"
 	imgAlt="Dialogue UI"
 	imgCaption="Dialogue UI"
 />
@@ -107,7 +107,7 @@ The dialogue UI only displayed the dialogue box as well as two black bars on the
 Four different types of enemies were included in the game, in addition to the boss (Kahn himself), to add variety to the different levels. All their behaviour were handled by a simple state machine and implemented using an Enum defining all of their states, a switch statement to determine the correct state behaviour to execute, and functions which defined the actual behaviour of the different states. Switching between states was controlled via Area2D nodes (which essentially served as the AI’s senses), as well as Timer nodes. Each state an enemy had typically had an animation associated with it.
 
 <BlogImage
-	imgSrc="/Portfolio/claret/Slime statemachine.png"
+	imgSrc="../claret/Slime statemachine.png"
 	imgWidth="40%"
 	imgAlt="Switch statement for state machine control"
 	imgCaption="Switch statement for state machine control"
@@ -120,7 +120,7 @@ _Slime_:
 - Moves slowly towards the player and performs a short-ranged melee attack when they are close enough
 
 <BlogImage
-	imgSrc="/Portfolio/claret/slime_attack.gif"
+	imgSrc="../claret/slime_attack.gif"
 	imgAlt="Slime behaviour"
 	imgCaption="Slime behaviour"
 />
@@ -130,7 +130,7 @@ _Spinner_:
 - Once it starts targeting the player, it will curl up in a ball and being to spin before attacking the player by dashing at high speed towards them. When the Spinner starts dashing, it cannot change its dash direction until it comes to a stop
 
 <BlogImage
-	imgSrc="/Portfolio/claret/rolling_enemies.gif"
+	imgSrc="../claret/rolling_enemies.gif"
 	imgAlt="Spinner behaviour"
 	imgCaption="Spinner behaviour"
 />
@@ -140,7 +140,7 @@ _Bear Ape_:
 - A large slow-moving enemy that deals damage in a small area around it by slamming its fists into the ground to create a shockwave if the player is close enough
 
 <BlogImage
-	imgSrc="/Portfolio/claret/Bear Ape attack.gif"
+	imgSrc="../claret/Bear Ape attack.gif"
 	imgAlt="Bear Ape behaviour"
 	imgCaption="Bear Ape behaviour"
 />
@@ -150,7 +150,7 @@ _Exiled Grunt_:
 - One of Kahn’s followers who wields an energised axe to attack the player after charging their attack for a short period of time
 
 <BlogImage
-	imgSrc="/Portfolio/claret/exiled_enemies.gif"
+	imgSrc="../claret/exiled_enemies.gif"
 	imgAlt="Exiled Grunt behaviour"
 	imgCaption="Exiled Grunt behaviour"
 />
@@ -166,19 +166,19 @@ _Boss (Kahn)_:
 - Attack 3: Shockwave – after a longer delay and charge time, Kahn slams his fists into the ground dealing damage in a large area around him in the form of an energised shockwave
 
 <BlogImage
-	imgSrc="/Portfolio/claret/KahnAttack1.gif"
+	imgSrc="../claret/KahnAttack1.gif"
 	imgAlt="Kahn Attack 1"
 	imgCaption="Kahn Attack 1"
 />
 
 <BlogImage
-	imgSrc="/Portfolio/claret/KahnAttack2.gif"
+	imgSrc="../claret/KahnAttack2.gif"
 	imgAlt="Kahn Attack 2"
 	imgCaption="Kahn Attack 2"
 />
 
 <BlogImage
-	imgSrc="/Portfolio/claret/KahnAttack3.gif"
+	imgSrc="../claret/KahnAttack3.gif"
 	imgAlt="Kahn Attack 3"
 	imgCaption="Kahn Attack 3"
 />
