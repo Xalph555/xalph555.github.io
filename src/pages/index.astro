@@ -59,6 +59,11 @@ const projects = await getCollection("projects");
 	}
 
 	/* Responsive styles */
+	@media screen and (max-width: 1010px) {
+		.skills-grid {
+			grid-template-columns: repeat(auto-fit, minmax(16em, 1fr));
+		}
+	}
 	@media screen and (max-width: 745px) {
 		#intro {
 			display: block;
