@@ -5,6 +5,6 @@ const { listTitle, listItems } = Astro.props;
 <div>
   <b>{listTitle}</b>
   <ul>
-    {listItems.map((item) => <li>{item}</li>)}
+    {listItems.map((item: string[]) => <li>{item}</li>)}
   </ul>
 </div>

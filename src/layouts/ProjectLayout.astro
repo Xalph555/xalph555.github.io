@@ -99,14 +99,14 @@ const embedAspectRatio = frontmatter.gameEmbed
 		<div>
 			<h2>Summary</h2>
 			{
-				frontmatter.summary.map(summaryPara => <p>{summaryPara}</p>)
+				frontmatter.summary.map((summaryPara: string[]) => <p>{summaryPara}</p>)
 			}
 		</div>
 		<div>
 			<StyledContainer>
 				<b>Specifications</b>
 				<ul>
-					{frontmatter.specifications.map((spec) => <li>{spec}</li>)}
+					{frontmatter.specifications.map((spec: string[]) => <li>{spec}</li>)}
 				</ul>
 				<b>Links</b>
 				<ul class="links">

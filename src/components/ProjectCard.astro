@@ -72,7 +72,7 @@ const cardHighlightColor = "#ffffffcc";
 		<p>{projectFrontmatter.description}</p>
 		<b>Key Technical Details</b>
 		<ul>
-			{projectFrontmatter.techDetails.map((detail) => <li>{detail}</li>)}
+			{projectFrontmatter.techDetails.map((detail: string[]) => <li>{detail}</li>)}
 		</ul>
 		<a class="card-highlight" href=`/projects/${slug}`><span>Read More</span></a
 		>
