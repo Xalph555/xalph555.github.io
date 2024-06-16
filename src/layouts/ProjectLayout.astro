@@ -150,6 +150,19 @@ const embedAspectRatio = frontmatter.gameEmbed
 						)
 					}
 					{
+						frontmatter.links.gitlab && (
+							<li>
+								<IconDotPoint
+									iconClass="fa-brands fa-gitlab"
+									srIconName="GitLab"
+									iconSize="2.5em"
+									link={frontmatter.links.gitlab}
+									text="GitLab"
+								/>
+							</li>
+						)
+					}
+					{
 						frontmatter.links.techDocs && (
 							<li>
 								<IconDotPoint

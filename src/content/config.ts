@@ -32,9 +32,9 @@ const projectCollection = defineCollection({
 			itchio: z.string().optional(),
 			github: z.string().optional(),
 			bitbucket: z.string().optional(),
+			gitlab: z.string().optional(),
 			techDocs: z.string().optional(),
 		}),
-		// summary: z.string(),
 		summary: z.array(z.string()),
 	}),
 });

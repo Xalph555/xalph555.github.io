@@ -1,0 +1,462 @@
+---
+title: "Blockout Stadium (2022)"
+projectDate: 2022-10-01
+
+# Card properties
+cardImage:
+  url: "/blockoutStadium/Animation.gif"
+  alt: "A slime picks up a ball, walks across a bridge and throws it into a goal"
+description: Turns out, there is an ‘I’ in team. Blockout Stadium’ is a third-person, online multiplayer, soccer-inspired game where you play as a slime, the simple fantasy creature, and leverage your unique physical capabilities to outwit and out manoeuvre your opponent in an enclosed arena. Split your body apart to become the ultimate one-man army as you strategically position yourself to set up an unbreakable defence, or an unstoppable offence."
+techDetails:
+  - A semester-long assignment where we were tasked with creating a sports game of our own design using the techniques and tools taught during the semester
+  - Made in Unreal Engine 5
+  - 'Focus of the unit: Unreal Engine 5, Networking and multiplayer games, Basic shaders (tech art), Unreal’s Chaos physics system'
+  - Programmed in C++
+  - 'Overall grade for the unit: HD (High Distinction)'
+  - 'Grade for the game: HD (High Distinction)'
+  - 'Grade for the TDD: HD (High Distinction)'
+
+# Page properties
+subtitle: "University Game Programming Unit"
+heroImage:
+  url: "/blockoutStadium/Animation.gif"
+  alt: "A slime picks up a ball, walks across a bridge and throws it into a goal"
+specifications:
+  - "Platform: Windows"
+  - "Project Duration: 6 months"
+  - "Made in Unreal Engine 5"
+  - "Genre: Sport, Online Multiplayer, 3D, Third person, Fantasy"
+  - 'Overall grade for the unit: HD (High Distinction)'
+  - 'Grade for the game: HD (High Distinction)'
+  - 'Grade for the TDD: HD (High Distinction)'
+links:
+  gitlab: "https://gitlab.com/xalphporfolio/fit2097-blockout-stadium"
+  techDocs: "https://docs.google.com/document/d/1phJUctk8KN24N2nzxDHwCWSJ0FqBaUEMMMQJ38Vh6c0/edit?usp=sharing"
+summary:
+  - '‘Blockout Stadium’ is my major assessment piece for the second game programming unit of my degree that focuses on building tech art and multiplayer networking skills, as well as refining the basic gameplay programming skills taught in the previous unit. More specifically, the unit focused on:'
+  - '- Basic multiplayer and networking'
+  - '- Shaders'
+  - '- Post processing effects'
+  - '- Unreal’s Niagara system'
+  - '- Unreal’s Chaos physics system'
+  - '- Unreal’s Meta sound'
+  - '- Lighting'
+  - 'The assessment spanned across the entire semester with multiple submissions and checkpoints along the way. It required us to create a sports game that integrated the skills and techniques mentioned above. Additionally, we also needed to update and maintain a Technical Design Document (TDD) for the assessment and make use of Git as our version control software.'
+  - 'Many of the game’s design decisions were made to meet the requirements of the assessment while also allowing me to be creative and to stand out within the confines of the unit.'
+---
+
+import BlogImage from "../../components/reusable/BlogImage.astro";
+import BlogVideo from "../../components/reusable/BlogVideo.astro";
+
+
+## Goals
+
+- Complete the assessment to a high standard
+
+- Go above-and-beyond the content of the unit to further develop my skills in Unreal Engine 5 and C++
+
+- Gain experiencing in developing multiplayer games
+
+- Further develop my project scoping and planning skills
+
+
+## Game Design
+
+### Vision
+
+Sport is honestly the game genre I am the least interested in, but even so, I found this assessment to be a good opportunity for me to develop something that I otherwise would not.
+
+​I did not want to directly copy an existing sport however as I knew that this would not enable me to stand out amongst my peers in the unit, nor will it allow me to meet the requirements of the assessment. As such, I set out to create a sport-like game with a fantasy twist to it.
+
+The idea was to create a bright and light-hearted, soccer-inspired game where players play as slimes (the kind typically seen in fantasy RPGs) and utilise their unique physical characteristics to manipulate a ball into a goal. The focus was to allow players to have a wide presence on the field through the versatility and fantasy of being a slime, hence leading to the main mechanic being the ability for players to split themselves into smaller pieces that they can individually control (essentially becoming a one-man-army). The wide field presence was important as the assessment was restricted to only allowing two players to play the game.
+
+
+### Slime Physics
+
+To truly deliver on the slime fantasy, the slimes players control must behave in a way they would expect them to. Due to their appearance and depiction in media, they are often seen as bouncy and jelly-like. As such, the body of the slimes in ‘Blockout Stadium’ are bouncy and can bounce off each other with the force applied being dependent on each player’s size. Additionally, the game’s ball can be knocked upward by a player when the ball is on the ground, and knocked forward when it is in the air.
+
+Both effects help fuel the fantasy of being a slime, while also providing players with a way to push the ball, defend, and or attack each other.
+
+<BlogVideo 
+	videoUrl="https://www.youtube.com/embed/ElA6PYEoHzI?si=3tPsZGA5d2snAXBT"
+	videoWidth="560"
+	videoHeight="315"
+	sizeScale="0.9"
+	videoTitle="Physics against other players"
+	videoCaption="Physics against other players"
+/>
+
+<BlogVideo 
+	videoUrl="https://www.youtube.com/embed/MxY9cXDSfss?si=zgGo9U11QudytNO8"
+	videoWidth="560"
+	videoHeight="315"
+	sizeScale="0.9"
+	videoTitle="Physics against ball"
+	videoCaption="Physics against ball"
+/>
+
+**Implementation**:
+
+These behaviours were implemented in response to the ‘OnComponentHit’ delegate of Unreal’s character class capsule component. When a hit event is received, the player will check whether it has hit another player or the ball, and then execute the appropriate logic. The force applied to players is done via an impulse through their character movement component, and on balls through the standard impulse function.  
+
+For more information regarding this ability and its implementation, please refer to the associated page in the linked TDD ([Linked page](https://docs.google.com/document/d/1phJUctk8KN24N2nzxDHwCWSJ0FqBaUEMMMQJ38Vh6c0/edit#bookmark=id.59qos186hk8h)).
+
+### Splitting, Combining, Character Switching
+
+The ability for players to split themselves apart, recombine, and switch control between their split pieces, is core to ‘Blockout Stadium’s’ gameplay.
+
+During the game, players can split themselves into half (up to a maximum of two times) with each split reducing their size but increasing their movement speed. Players can then recombine with their split pieces to regain their lost mass by overlapping a piece of the same size with the drawback of decreasing their movement speed. In addition, the smaller a player is, the less resistant they are to being pushed back by other players. Players are only able to control one piece at a time, however they can switch which piece they are currently controlling.
+
+Through these core mechanics, players can have a wide presence on the field despite there being only two participants in a given match, which in turn gives rise to the importance of strategic positioning within the game. Such behaviour is also somewhat expected for slimes.
+
+<BlogVideo 
+	videoUrl="https://www.youtube.com/embed/UJEye3-qlqc?si=4M-HexDog4B2LEDY"
+	videoWidth="560"
+	videoHeight="315"
+	sizeScale="0.9"
+	videoTitle="Splitting and Combining"
+	videoCaption="Splitting and Combining"
+/>
+
+<BlogVideo 
+	videoUrl="https://www.youtube.com/embed/IBHVkgrTyDE?si=xkRzmU9n9CB_e0Ej"
+	videoWidth="560"
+	videoHeight="315"
+	sizeScale="0.9"
+	videoTitle="Character switching"
+	videoCaption="Character switching"
+/>
+
+**Splitting Implementation**:
+
+Splitting is implemented by first reducing the scale of the current instance of the player (as well as other stats that are influenced by size such as movement speed) before spawning another instance of the same smaller size behind them.
+
+For more information regarding this ability and its implementation, please refer to the associated page in the linked TDD ([Linked page](https://docs.google.com/document/d/1phJUctk8KN24N2nzxDHwCWSJ0FqBaUEMMMQJ38Vh6c0/edit#bookmark=id.qcpulrjwhsz2)).
+
+**Combining Implementation**:
+
+Combining is implemented by responding to a ‘ComponentOverlap’ delegate from a capsule component when the player overlaps with one of their own pieces of the same size. When this occurs, the other slime piece is deleted and the current slime will be scaled up.
+
+Additional checks are required when the player is recombining to ensure that each slime piece does not try to delete each other, as well as another case when neither piece is being controlled. To ensure that the intended behaviour is executed, velocity is used as the deciding factor. This is because at least one of the slime pieces needs to be moving (either from player input or being pushed by the opponent) for them to recombine in the first place, and as such, we select the slime piece with the higher velocity as the one that will be scaled up and not deleted.
+
+For more information regarding this ability and its implementation, please refer to the associated page in the linked TDD ([Linked page](https://docs.google.com/document/d/1phJUctk8KN24N2nzxDHwCWSJ0FqBaUEMMMQJ38Vh6c0/edit#bookmark=id.qcpulrjwhsz2)).
+
+<BlogImage
+	imgSrc="/blockoutStadium/Combine Code.png"
+	imgWidth="90%"
+	imgAlt="Combine ability velocity checks"
+	imgCaption="Combine ability velocity checks"
+/>
+
+**Switching Implementation**:
+
+While all other abilities of the player are implemented within the slime player character class, switching between pieces is the only ability that is implemented within the player character controller. Due to Unreal Engine’s system of using controllers to possess and control pawns, it makes the most sense to hold the character switching logic inside the class that handles the possession and unpossession of characters.
+
+When the player needs to switch to one of their pieces, a sphere ray cast is conducted in the direction that their camera is currently facing. When a piece is hit by the ray cast, the character controller will unpossess the slime it is currently possessing and possess the hit slime instead.
+
+For more information regarding this ability and its implementation, please refer to the associated page in the linked TDD ([Linked page](https://docs.google.com/document/d/1phJUctk8KN24N2nzxDHwCWSJ0FqBaUEMMMQJ38Vh6c0/edit#bookmark=id.b9cjf2k1uimy)).
+
+
+### Shooting to Split
+
+To increase the versatility of the slime’s splitting ability, players will also be able to shoot off pieces of themselves to split to enable them to traverse the arena more efficiently. It also provides a means of more precisely knocking the ball, and other players, without needing to be directly next to them. Moreover, it provides an additional means of strategic positioning.
+
+As a result of this ability, players will have a greater presence on the field and have more tools at their disposal to help them score goals.
+
+<BlogVideo 
+	videoUrl="https://www.youtube.com/embed/hpIFbfRhVvo?si=AjlZ6IEJSLDvNPpF"
+	videoWidth="560"
+	videoHeight="315"
+	sizeScale="0.9"
+	videoTitle="Shooting to split"
+	videoCaption="Shooting to split"
+/>
+
+**Implementation**:
+
+This ability is implemented by reusing the splitting function and manipulating the player’s camera to make it appear as if they are “aiming.” The splitting function was implemented in a generic manner so that it can take in the split direction and split force as parameters, hence allowing it to be reused in the previously described split ability as well as this ‘shooting to split’ ability.
+
+<BlogImage
+	imgSrc="/blockoutStadium/Shoot to split - Player.png"
+	imgWidth="70%"
+	imgAlt="Player character class"
+	imgCaption="Player character class"
+/>
+
+<BlogImage
+	imgSrc="/blockoutStadium/Shoot to split - ability component.png"
+	imgWidth="100%"
+	imgAlt="Split ability component class"
+	imgCaption="Split ability component class"
+/>
+
+For more information regarding this ability and its implementation, please refer to the associated page in the linked TDD ([Linked page](https://docs.google.com/document/d/1phJUctk8KN24N2nzxDHwCWSJ0FqBaUEMMMQJ38Vh6c0/edit#bookmark=id.v33ftakwkoto)).
+
+
+### Jumping and Launching
+
+To further reflect the bouncy characteristics of a slime, players can not only jump but also charge up their jump to make it more powerful. Similar to a spring, it is expected that compressing and releasing a slime would make it bounce upwards at a higher velocity compared to if it jumped up on its own.
+
+Quickly pressing and releasing the jump key will allow the player to jump, however holding down the jump key for a period of time will allow the player to gradually charge up energy in order to increase the distance of their jump when they eventually release the key.
+
+<BlogVideo 
+	videoUrl="https://www.youtube.com/embed/5-9Z1oZZY2s?si=fN02frRNb8Mw4EAq"
+	videoWidth="560"
+	videoHeight="315"
+	sizeScale="0.9"
+	videoTitle="Jumping and launching"
+	videoCaption="Jumping and launching"
+/>
+
+**Implementation**:
+
+The implementation of this ability hinges on the amount of time the player holds down the jump key before it is released. When the key is first pressed, the player character will start counting the amount of time it is has been held for, and depending on the duration, when the key is released it will either launch the player or perform a normal jump. Furthermore, it can be assumed that after a set duration the player likely wants to charge their jump, and thus the slime will enter the charging state at this time. The direction of the launch is taken as the direction the player’s camera is facing at the time the jump key is released.
+
+This launch ability has one of the more complicated implementations for its accompanying Meta sound and Niagara particle effect. Both the Meta sound and the particle effect have two stages that correspond to the partially charged and fully charged states of the launch, with the transition between the two stages being controlled by the player character class.
+
+For more information regarding this ability and its implementation, please refer to the associated page in the linked TDD ([Linked page](https://docs.google.com/document/d/1phJUctk8KN24N2nzxDHwCWSJ0FqBaUEMMMQJ38Vh6c0/edit#bookmark=id.cii4p9n4pfud)).
+
+
+### Grabbing and Throwing
+
+To provide the player with greater precision when manipulating the ball, they will have the ability to grab and throw it in addition to being able to kick it.
+
+After receiving some feedback, it was evident that only being able to push and kick the ball made it hard to control and hence score goals. Thus, such an ability was required to ease the difficulty of the game. However, it was also clear that a player could just hold onto the ball for the duration of a match and unfairly score against their opponent. To ensure that the grabbing and throwing mechanic was balanced, a movement debuff was added so that players moved slower when they have the ball in their possession. Furthermore, other players can also knock the ball out of their opponent’s grasp unless the opponent is at their maximum size.
+
+<BlogVideo 
+	videoUrl="https://www.youtube.com/embed/mBKupWc-gPw?si=dAbf5iERaPbAK9qB"
+	videoWidth="560"
+	videoHeight="315"
+	sizeScale="0.9"
+	videoTitle="Grab highlight"
+	videoCaption="Grab highlight"
+/>
+
+<BlogVideo 
+	videoUrl="https://www.youtube.com/embed/4rXoov6Sl4s?si=VxE39qEtPgvDtW1F"
+	videoWidth="560"
+	videoHeight="315"
+	sizeScale="0.9"
+	videoTitle="Grab"
+	videoCaption="Grab"
+/>
+
+<BlogVideo 
+	videoUrl="https://www.youtube.com/embed/5VRBm5aNM0w?si=TZzBm4PTU2Cttr14"
+	videoWidth="560"
+	videoHeight="315"
+	sizeScale="0.9"
+	videoTitle="Throwing"
+	videoCaption="Throwing"
+/>
+
+**Implementation**:
+
+This grabbing portion of the ability is implemented within the main slime character class with a hitbox attached to the front of the player that represents their grab range. A persistent hitbox was found to be appropriate so that the ball can be highlighted to the player when it is within their grabbing range. The highlight was done via a post processing effect.
+
+Throwing the ball was implemented by applying an impulse to the ball the player is holding in the direction that their camera is facing.
+
+For more information regarding this ability and its implementation, please refer to the associated page in the linked TDD ([Linked page](https://docs.google.com/document/d/1phJUctk8KN24N2nzxDHwCWSJ0FqBaUEMMMQJ38Vh6c0/edit#bookmark=id.8osqisl53uqj)).
+
+
+### Acid Patches
+
+To round off the abilities of the slime, and to meet the Chaos physics requirements of the assessment, players will be able to create acidic slime patches when they land on the ground at a high enough velocity that can corrode and break certain objects. The objects that can be destroyed are the ‘Destructible Floor’ pieces that can be found on the ends of the arena, as well as the piles of ‘Destructible Junk’ also found at the ends of the arena. The size of the acid patch created is dependent on the size of the player.
+
+Besides meeting the requirements of the unit, the Acid Patches were included to add another element of strategy and interaction for players. It helps fuel the fantasy of being a slime while also providing ways for players to disrupt their opponent (e.g. destroying the destructible floor pieces to make it harder for the opponent to move the ball to the goal).
+
+<BlogVideo 
+	videoUrl="https://www.youtube.com/embed/k40XbuiMGv8?si=3m9rZsBjkv0aE5Ta"
+	videoWidth="560"
+	videoHeight="315"
+	sizeScale="0.9"
+	videoTitle="Acid Patches"
+	videoCaption="Acid Patches"
+/>
+
+**Implementation**:
+
+The destructible elements in the arena are geometry collections that have been fractured using Unreal Engine’s built in tools. The player’s Acid Patches then make use of physics fields to apply internal strain to geometry collections within the Acid Patch’s area over time until they eventually break. The internal strain is applied in every physics tick.
+
+For more information regarding this ability and its implementation, please refer to the associated page in the linked TDD ([Linked page](https://docs.google.com/document/d/1phJUctk8KN24N2nzxDHwCWSJ0FqBaUEMMMQJ38Vh6c0/edit#bookmark=id.73qj9rgz2vls)).
+
+<BlogImage
+	imgSrc="/blockoutStadium/Destructible Floor.png"
+	imgWidth="50%"
+	imgAlt="Destructible floor (fractured)"
+	imgCaption="Destructible floor (fractured)"
+/>
+
+<BlogImage
+	imgSrc="/blockoutStadium/Destructible Junk.png"
+	imgWidth="50%"
+	imgAlt="Destructible junk (fractured)"
+	imgCaption="Destructible junk (fractured)"
+/>
+
+### Player Blueprint Design
+
+To minimise the amount of content within the main slime character class, the player’s abilities were split into multiple actor components.
+
+Some of these components were derived from the base ActorComponent class (Size Modification, Jumping and Launching, Acid Patches), while others were derived from the various subclasses of the ActorComponent class to facilitate their functionality (such CapsuleComponent for the Combing and Splitting ability, and SceneComponent for the Kicking ability).​
+
+Besides the Size Modification component, the other ability components require access to the main class’s properties and functions. While this does pose a circular dependency issue, which can be avoided by manipulating how some classes are included in their header files, this design choice is justified. The purpose of these ability components in this project is not to create a modular system of player abilities that can be added or removed, but to separate code in a way that makes it easier to read and maintain. Additionally, these components are only intended to be used within the slime character class, and aside from a few properties, the abilities are mostly self-contained.
+
+If a modular ability system was required, this implementation would not be appropriate. Given the context of this project however, the design of the slime character class is satisfactory.
+
+<BlogImage
+	imgSrc="/blockoutStadium/Player BP.png"
+	imgWidth="90%"
+	imgAlt="Player blueprint design"
+	imgCaption="Player blueprint design"
+/>
+
+
+## Tech Art
+
+One of the core learning outcomes for the unit was to develop basic skills in areas related to tech art including shaders, post processing effects, and particle effects. One of each is discussed below.
+
+All shaders and post processing effects have been created using Unreal Engine’s material graph, and the particle effects have been created using Unreal Engine’s Niagara particle system.
+
+### Shaders: Slime Body Shader
+
+To help reinforce the fantasy of being a slime, it was important that the player’s character also behaved visually like a slime. While the abilities of the player do contribute to this, a shader was also required to truly give it a jelly-like feel.
+
+<BlogVideo 
+	videoUrl="https://www.youtube.com/embed/NqHOaEiVjDU?si=pGk3oUDkN-rObOSS"
+	videoWidth="560"
+	videoHeight="315"
+	sizeScale="0.9"
+	videoTitle="Slime body shader example"
+	videoCaption="Slime body shader example"
+/>
+
+**Implementation**:
+
+<BlogImage
+	imgSrc="/blockoutStadium/Slime Shader Overview.png"
+	imgWidth="100%"
+	imgAlt="Slime body shader material graph overview"
+	imgCaption="Slime body shader material graph overview"
+/>
+
+The Slime Body Shader uses a vertex shader to allow the player’s mesh to jiggle as it moves by offsetting the vertices of the mesh in the opposite direction to the player’s current velocity. The strength of this offset is greater on top of the slime’s body compared to its base, which is represented by a vertical gradient mask. The shader itself does not directly produce the jiggle when the player suddenly stops, and it is instead calculated within the slime character class using a sin function with a gradually decreasing amplitude. 
+
+<BlogImage
+	imgSrc="/blockoutStadium/Slime Shader Jiggle.png"
+	imgWidth="100%"
+	imgAlt="Jiggle movement"
+	imgCaption="Jiggle movement"
+/>
+
+<BlogImage
+	imgSrc="/blockoutStadium/Slime Shader Gradient Mask.png"
+	imgWidth="100%"
+	imgAlt="Gradient mask for jiggle movement"
+	imgCaption="Gradient mask for jiggle movement"
+/>
+
+A pixel shader is also used within the Slime Body Shader to give it colour as well as a translucent and partly shiny finish. Additionally, the surface of the slime has floating white bits to further the illusion that the player is made out of slime and to prevent it from feeling too static during the game. Moreover, a rough white outline is applied through a Fresnel function to give the slime a more solid appearance and to ensure it does not blend into the background of the environment.
+
+<BlogImage
+	imgSrc="/blockoutStadium/Slime Shader Pixel shader.png"
+	imgWidth="100%"
+	imgAlt="Pixel shader"
+	imgCaption="Pixel shader"
+/>
+
+For more information regarding this ability and its implementation, please refer to the associated page in the linked TDD ([Linked page](https://docs.google.com/document/d/1phJUctk8KN24N2nzxDHwCWSJ0FqBaUEMMMQJ38Vh6c0/edit#bookmark=id.tpn9e3y8m2jf)).
+
+
+### Post Processing: Toon Shader
+The main post processing effect, and the one that dictates the visual style of the game, is a Toon Shader consisting of a cel shading component and an outline component.
+
+This post processing effect serves to enhance and convey the light-hearted nature of the game as such feelings are often attributed to a cartoony style.
+
+<BlogVideo 
+	videoUrl="https://www.youtube.com/embed/r2ueIThJnu8?si=08G8yaIQUdCRMH8v"
+	videoWidth="560"
+	videoHeight="315"
+	sizeScale="0.9"
+	videoTitle="Toon shader overview"
+	videoCaption="Toon shader overview"
+/>
+
+**Implementation**:
+
+<BlogImage
+	imgSrc="/blockoutStadium/Toon Shader Overview.png"
+	imgWidth="100%"
+	imgAlt="Toon shader material graph overview"
+	imgCaption="Toon shader material graph overview"
+/>
+
+The cel shading portion of the effect is achieved by first getting the light values of the scene and simplifying them. This is done by setting cut off thresholds for certain light values, depending on the number of shading “bands” required, and ensuring that only that value is used for that portion of the threshold. The colours of the scene are then extracted and reapplied to the adjusted light values.
+
+<BlogImage
+	imgSrc="/blockoutStadium/Toon Shader Cel Shader.png"
+	imgWidth="100%"
+	imgAlt="Toon shader cel shader"
+	imgCaption="Toon shader cel shader"
+/>
+
+The outline portion of the shader is achieved through the use of the custom depth buffer within Unreal Engine to ensure that only select objects have an outline applied to them. This custom depth is then offset to produce a mask which is then used to render the outlines.
+
+<BlogImage
+	imgSrc="/blockoutStadium/Toon Shader Outline.png"
+	imgWidth="100%"
+	imgAlt="Toon shader outline shader"
+	imgCaption="Toon shader outline shader"
+/>
+
+There are still some issues with the current implementation of this Toon shader. For example, Unreal Engine’s Lumen global illumination system needs to be disabled to prevent a large number of artifacts from appearing through the cel shader. Moreover, due to how custom depth was used, the outlines produced can be seen through objects that are not included in the custom depth buffer (this is rectifiable, however it would require a complete rewrite of the outline portion of the shader).​
+
+For more information regarding this ability and its implementation, please refer to the associated page in the linked TDD ([Linked page](https://docs.google.com/document/d/1phJUctk8KN24N2nzxDHwCWSJ0FqBaUEMMMQJ38Vh6c0/edit#bookmark=id.ai4ddydmwbjn)).
+
+
+### Particle Effect: Launch Particles
+
+One of the more notable and complex particle effects in this project is the Launch particles that accompany the player’s Launching ability.
+
+When the player begins to charge their launch, the air around them begins to converge towards the centre of their character. Then, when maximum charge is achieved, energy starts to emit from the player and the air around them stirs more erratically.
+
+In addition to making the Launch ability appear more impactful, the two stages of the Launch particle also provide the player with a visual cue as to when they have reached their maximum launch charge.
+
+<BlogVideo 
+	videoUrl="https://www.youtube.com/embed/LnPXow70XuY?si=UwB3DPnSKW8VfamN"
+	videoWidth="560"
+	videoHeight="315"
+	sizeScale="0.9"
+	videoTitle="Launch particles example"
+	videoCaption="Launch particles example"
+/>
+
+**Implementation**:
+
+A total of seven emitters are used for this effect with only two being activated for the first stage of the Launch’s charge, and the remaining five being activated for the second stage. The transition between the two stages of the particle effect is controlled via a single parameter that is set within the slime character class. Most of the particles for this effect use the basic sprites included within Unreal Engine except the triangles of energy that use a custom sprite and material to achieve the faint border around them.
+
+For more information regarding this ability and its implementation, please refer to the associated page in the linked TDD ([Linked page](https://docs.google.com/document/d/1phJUctk8KN24N2nzxDHwCWSJ0FqBaUEMMMQJ38Vh6c0/edit#bookmark=id.g5430v59ypwf)).
+
+
+## Networking
+
+Client-server is the intended networking architecture for ‘Blockout Stadium’ to defend against the forms of cheating that can occur on listen-server or peer-to-peer architectures (such as being able to access and modify the game state). However, listen-server was used for testing.
+
+The networking backend is handled by Unreal Engine’s built-in networking solution for replication, as well as how it handles remote procedure calls (RPCs).
+
+Aside from the chosen networking architecture, additional precautions were also taken to further improve the security of the game. Many of the player’s abilities were programmed defensively when it came to replicating them across clients by ensuring that replicated variables are only set on the server, or through server RPCS, and checking that the current actor actually had authority before allowing it to perform game critical functions. Furthermore, Unreal Engine’s built-in validation functions were also used to verify the inputs for RPCs to ensure there were within an acceptable range before being passed and executed.
+
+For more information regarding this ability and its implementation, please refer to the associated page in the linked TDD ([Linked page](https://docs.google.com/document/d/1phJUctk8KN24N2nzxDHwCWSJ0FqBaUEMMMQJ38Vh6c0/edit#bookmark=id.v0ui8mf6ii6c)).
+
+
+## Reflection
+
+Putting aside the high grade I received for this assessment, I am proud of the work I have done and the things I was able to achieve for this project. I was able to develop and produce a prototype for a game within a genre I would otherwise not step into, and I was able to implement fairly complex mechanics that could be successfully executed over a network. My first attempt at working with shaders proved fruitful as evident from my Toon shader post processing effect and Slime Body Shader. Additionally, I was able to refine my documentation skills through my TDD which served as an extremely helpful reference the further development progressed. Overall, I believe that I had achieved what I had set out to do for this project, and I was very surprised considering the time I had after my other classes and commitments during the semester.
+
+From this experience, some things I would do differently or keep in mind for future projects include:
+
+- Perform more comprehensive planning for networking functions if multiplayer is a requirement
+
+- More precisely balance my time between working on the game itself and updating the TDD
+
+- Further develop my prototyping skills to be able to efficiently test ideas and implement solutions
