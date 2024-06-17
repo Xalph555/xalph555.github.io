@@ -3,10 +3,12 @@ const { videoUrl, videoWidth, videoHeight, sizeScale, videoTitle, videoCaption }
 
 ---
 
-<style>
+<style define:vars={{videoWidth, videoHeight, sizeScale}}>
     iframe {
         margin: auto;
         display: block;
+        width: var(--sizeScale);
+        aspect-ratio: calc(var(--videoWidth) / var(--videoHeight));
     }
     p {
         text-align: center;
@@ -16,8 +18,7 @@ const { videoUrl, videoWidth, videoHeight, sizeScale, videoTitle, videoCaption }
 
 <div>
     <iframe 
-        width={videoWidth * sizeScale}
-        height={videoHeight * sizeScale}
+        
         src={videoUrl} 
         title={videoTitle} 
         frameborder="0" 
