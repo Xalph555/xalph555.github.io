@@ -80,11 +80,7 @@ const embedAspectRatio = frontmatter.gameEmbed
 						src={frontmatter.gameEmbed.iframeSrc}
 						allowfullscreen=""
 						title={frontmatter.title}
-					>
-						<a href={frontmatter.gameEmbed.url}>
-							Play {frontmatter.title} on itch.io
-						</a>
-					</iframe>
+					/>
 				) : (
 					<img
 						src={frontmatter.heroImage.url}
@@ -98,9 +94,7 @@ const embedAspectRatio = frontmatter.gameEmbed
 	<div id="summary">
 		<div>
 			<h2>Summary</h2>
-			{
-				frontmatter.summary.map((summaryPara: string[]) => <p>{summaryPara}</p>)
-			}
+			{frontmatter.summary.map((summaryPara: string[]) => <p>{summaryPara}</p>)}
 		</div>
 		<div>
 			<StyledContainer>
