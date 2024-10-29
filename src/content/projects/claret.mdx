@@ -30,7 +30,9 @@ summary:
   - "Unfortunately, as this class primarily focused on film and photography, I knew I would not be able to get much support for my project if I encountered any issues. Moreover, this assessment was being completed during the peak of the Covid-19 pandemic in 2020 where work/ learn from home arrangement were being adopted for the first time."
 ---
 
+import { Prism } from '@astrojs/prism';
 import BlogImage from "../../components/reusable/BlogImage.astro";
+import CaptionBlock from "../../components/reusable/CaptionBlock.astro";
 
 ## Goals
 
@@ -106,11 +108,27 @@ The dialogue UI only displayed the dialogue box as well as two black bars on the
 
 Four different types of enemies were included in the game, in addition to the boss (Kahn himself), to add variety to the different levels. All their behaviour were handled by a simple state machine and implemented using an Enum defining all of their states, a switch statement to determine the correct state behaviour to execute, and functions which defined the actual behaviour of the different states. Switching between states was controlled via Area2D nodes (which essentially served as the AI’s senses), as well as Timer nodes. Each state an enemy had typically had an animation associated with it.
 
-<BlogImage
-	imgSrc="/claret/Slime statemachine.png"
-	imgWidth="40%"
-	imgAlt="Switch statement for state machine control"
-	imgCaption="Switch statement for state machine control"
+
+<Prism
+	lang="gdscript"
+	code={
+`func _physics_process(delta):
+	match state_current:
+		IDLE:
+			state_idle()
+
+		RUN:
+			state_run()
+
+		ATTACK:
+			state_attack()
+
+		DEATH:
+			state_death()`
+	}
+/>
+<CaptionBlock
+	caption="Switch statement for state machine control"
 />
 
 **Enemies and their behaviour**:

@@ -7,4 +7,7 @@ import mdx from "@astrojs/mdx";
 export default defineConfig({
   integrations: [react(), mdx()],
   site: 'https://Xalph555.github.io',
+  markdown: {
+    syntaxHighlight: 'prism',
+  }
 });

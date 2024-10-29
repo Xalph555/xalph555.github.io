@@ -27,6 +27,7 @@ const projects = await getCollection("projects");
 		gap: 4em;
 		align-items: center;
 		margin-bottom: 2ch;
+		color: rgb(52, 53, 50);
 	}
 
 	#intro h1 {
@@ -42,8 +43,8 @@ const projects = await getCollection("projects");
 	}
 	.skills-grid {
 		display: grid;
-		justify-self: center;
-		align-self: center;
+		justify-self: stretch;
+		align-self: stretch;
 		grid-template-columns: repeat(auto-fit, minmax(12em, 1fr));
 	}
 

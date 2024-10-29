@@ -45,8 +45,10 @@ summary:
   - 'Many of the game’s design decisions were made to meet the requirements of the assessment while also allowing me to be creative and to stand out within the confines of the unit.'
 ---
 
+import { Prism } from '@astrojs/prism';
 import BlogImage from "../../components/reusable/BlogImage.astro";
 import BlogVideo from "../../components/reusable/BlogVideo.astro";
+import CaptionBlock from "../../components/reusable/CaptionBlock.astro";
 
 
 ## Goals
@@ -141,11 +143,76 @@ Additional checks are required when the player is recombining to ensure that eac
 
 For more information regarding this ability and its implementation, please refer to the associated page in the linked TDD ([Linked page](https://docs.google.com/document/d/1phJUctk8KN24N2nzxDHwCWSJ0FqBaUEMMMQJ38Vh6c0/edit#bookmark=id.qcpulrjwhsz2)).
 
-<BlogImage
-	imgSrc="/blockoutStadium/Combine Code.png"
-	imgWidth="90%"
-	imgAlt="Combine ability velocity checks"
-	imgCaption="Combine ability velocity checks"
+<Prism 
+	lang="cpp"
+	code={
+`void USACombineSplit::OnCombineHitBoxOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+                                                  UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex,
+                                                  bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (!PlayerRef || !SizeModifierCompRef)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("USACombineSplit component does not have player ref and or size modifier component"));
+		return;
+	}
+	
+	if (OtherActor && OtherActor != PlayerRef)
+	{
+		if (!PlayerRef->HasAuthority())
+			return;
+		
+		ALab_BlockoutStadiumCharacter* CollidedChar = Cast<ALab_BlockoutStadiumCharacter>(OtherActor);
+
+		if (bCanRecombine && CollidedChar && CollidedChar->GetCurrentTeam() == PlayerRef->GetCurrentTeam() &&
+			CollidedChar->SizeModifierComponent->GetCurrentSize() == SizeModifierCompRef->GetCurrentSize() &&
+			CollidedChar->CombineSplitComponent->bCanRecombine)
+		{
+			if (CollidedChar->SizeModifierComponent->GetCurrentSize() == EActorSize::SIZE_LARGE)
+				return;
+
+			// Cannot recombine if in grabbing state
+			if (PlayerRef->CurrentState == EPlayerState::STATE_GRABBING ||
+				CollidedChar->CurrentState == EPlayerState::STATE_GRABBING)
+				return;
+
+			// Player controlled and collided is not player controlled
+			if (PlayerRef->IsPlayerControlled() && !CollidedChar->IsPlayerControlled())
+			{
+				CombineWithCollidedChar(CollidedChar);
+				return;
+			}
+
+			// Both overlapping bodies are not player controlled
+			if (!PlayerRef->IsPlayerControlled() && !CollidedChar->IsPlayerControlled())
+			{
+				if (CollidedChar->GetVelocity().Length() < PlayerRef->GetVelocity().Length())
+				{
+					CombineWithCollidedChar(CollidedChar);
+					return;
+				}
+			}
+		}
+	}
+}
+
+
+void USACombineSplit::CombineWithCollidedChar(ALab_BlockoutStadiumCharacter* CollidedChar)
+{
+	if (!PlayerRef || !SizeModifierCompRef)
+		return;
+	
+	CollidedChar->CombineSplitComponent->bIsRecombining = true;
+	CollidedChar->Destroy();
+	SizeModifierCompRef->IncreaseSize();
+
+	PlaySound(PlayerRef->GetVelocity().Length());
+	
+	OnCombined.Broadcast();
+}`
+	}
+/>
+<CaptionBlock
+	caption="Combine ability velocity checks"
 />
 
 **Switching Implementation**:
@@ -176,19 +243,81 @@ As a result of this ability, players will have a greater presence on the field a
 
 This ability is implemented by reusing the splitting function and manipulating the player’s camera to make it appear as if they are “aiming.” The splitting function was implemented in a generic manner so that it can take in the split direction and split force as parameters, hence allowing it to be reused in the previously described split ability as well as this ‘shooting to split’ ability.
 
-<BlogImage
-	imgSrc="/blockoutStadium/Shoot to split - Player.png"
-	imgWidth="70%"
-	imgAlt="Player character class"
-	imgCaption="Player character class"
+<Prism 
+	lang="cpp"
+	code={
+`void ALab_BlockoutStadiumCharacter::ServerShootSplit_Implementation()
+{
+	if (CurrentState != EPlayerState::STATE_AIMING)
+		return;
+
+	const FVector SplitDir = GetFollowCamera()->GetForwardVector();
+
+	CombineSplitComponent->Split(SplitDir, ShootSplitForce);
+
+	if (GetPlayerState())
+	{
+		if (Cast<ASportPlayerState>(GetPlayerState()))
+		{
+			Cast<ASportPlayerState>(GetPlayerState())->AddTimesShot(1);
+		}
+	}
+}`
+	}
+/>
+<CaptionBlock
+	caption="Player character class"
 />
 
-<BlogImage
-	imgSrc="/blockoutStadium/Shoot to split - ability component.png"
-	imgWidth="100%"
-	imgAlt="Split ability component class"
-	imgCaption="Split ability component class"
+<Prism 
+	lang="cpp"
+	code={
+`void USACombineSplit::ServerSplit_Implementation(const FVector SplitDirection, const float SplitPushForce)
+{
+	if (!PlayerRef || !SizeModifierCompRef)
+		return;
+	
+	if (!PlayerCharacter)
+		return;
+
+	if (SizeModifierCompRef->GetCurrentSize() == EActorSize::SIZE_SMALL)
+		return;
+
+	bCanRecombine = false;
+	GetWorld()->GetTimerManager().SetTimer(CanRecombineTimerHandle, this, &USACombineSplit::OnCanRecombineTimer, 0.3f, false);
+	
+	const FRotator SpawnRotation = PlayerRef->GetActorRotation();
+	const FVector SpawnLocation = PlayerRef->GetActorLocation();
+	
+	FActorSpawnParameters ActorSpawnParameters;
+	ActorSpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+	
+	if (ALab_BlockoutStadiumCharacter* SpawnedCharacter = GetWorld()->SpawnActor<ALab_BlockoutStadiumCharacter>(PlayerCharacter,
+		SpawnLocation, SpawnRotation, ActorSpawnParameters))
+	{
+		SpawnedCharacter->SetLastCharacterController(PlayerRef->LastCharacterController);
+		
+		SizeModifierCompRef->ReduceSize();
+		SpawnedCharacter->SizeModifierComponent->SetSize(SizeModifierCompRef->GetCurrentSize());
+		
+		const FVector PushForce = SplitDirection * SplitPushForce;
+		SpawnedCharacter->GetCharacterMovement()->AddImpulse(PushForce, true);
+
+		SpawnedCharacter->SwitchState(EPlayerState::STATE_FLYING);
+
+		PlaySound(PlayerRef->GetVelocity().Length());
+		
+		OnSplit.Broadcast();
+	}
+}
+
+`
+	}
 />
+<CaptionBlock
+	caption="Split ability component class"
+/>
+
 
 For more information regarding this ability and its implementation, please refer to the associated page in the linked TDD ([Linked page](https://docs.google.com/document/d/1phJUctk8KN24N2nzxDHwCWSJ0FqBaUEMMMQJ38Vh6c0/edit#bookmark=id.v33ftakwkoto)).
 
