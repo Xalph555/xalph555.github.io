@@ -1,0 +1,594 @@
+---
+title: "Pizza Ball (2024)"
+projectDate: 2024-11-30
+
+# Card properties
+cardImage:
+  url: "/pizzaBall/main_demo.gif"
+  alt: "A ball of pizza dough with a chicken drumstick and a steak stuck to it rolls around a kitchen, bounces on jelly, and jumps into an oven"
+description: "In a world where taste meets dough, Sir Doughcelot must navigate the challenging world of the kitchen to satisfy his customers. As Sir Doughcelot, your objective is to fulfil as many customer orders as possible by rolling over ingredients with each ingredient sticking to your doughy body and altering your movement possibly in unwanted ways. You must successfully roll to the oven to become a spectacular pizza for the customer with more customers being fulfilled during the time of the clock granting more points. However, with many wishing to be fed according to their specific tastes, as well as various obstacles and unwanted ingredients in your way, how will you fare under the growing pressure of the clock? Will you as Sir Doughcelot become a slice so spectacular or deliver a dough disappointment?"
+techDetails:
+  - "Semester long assignment creating a game in a team of 4 around the theme of ‘Food’"
+  - "Focus of the unit: Following the game development process and harnessing player feedback"
+  - "Role in project: Team Lead & Lead Programmer"
+  - "Made in Unreal Engine 5"
+  - "Programmed with C++ and Blueprints"
+  - "Overall grade for the unit: HD (High Distinction)"
+  - "Overall grade for the game: HD (High Distinction)"
+
+# Page properties
+subtitle: "University Game Design Unit"
+heroImage:
+  url: "/pizzaBall/main_demo.gif"
+  alt: "A ball of pizza dough with a chicken drumstick and a steak stuck to it rolls around a kitchen, bounces on jelly, and jumps into an oven"
+specifications:
+  - "Platform: Windows"
+  - "Project Duration: 6 months"
+  - "Made in Unreal Engine 5"
+  - "Genre: Physics puzzle platformer"
+  - "Overall grade for the unit: HD (High Distinction)"
+  - "Overall grade for the game: HD (High Distinction)"
+links:
+  itchio: "https://teamjustbread.itch.io/pizza-ball"
+summary:
+  - "‘Pizza Ball’ is my major assignment piece I developed in team of four for my second game design unit of my degree. The unit was focused on providing us the space to apply the game design theory we learned in the prerequisite unit by creating a polished game around the theme of ‘Food’ that would also be published on itch.io. There were no other restrictions for this assignment aside from the need to initially create two game prototypes, one in Unity and one in Unreal Engine, before settling on one to fully flesh out (obviously ‘Pizza Ball’ was the game that we carried on with)."
+  - "The assignment spanned across the entire semester with multiple submissions and checkpoints along the way including two playtest sessions where we were required to collect and act upon playtester feedback."
+  - "For this assignment, I took on the role of Team Lead and Lead Programmer primarily because of my prior experience developing games and programming. As the Team Lead, I was responsible for keeping the team organised through carefully laid plans and timelines, encouraging collaboration with everyone’s voices being heard, and constantly keeping scope in check to ensure we could achieve everything we wanted to before the due date. As the Lead Programmer, I handled implementing the more complex systems of our game, such as the order system, and making visual enhancements and adjustments."
+---
+
+import { Prism } from '@astrojs/prism';
+import BlogImage from "../../components/reusable/BlogImage.astro";
+import CaptionBlock from "../../components/reusable/CaptionBlock.astro";
+
+## Goals
+
+- Complete the assignment to a high standard
+
+- Learn how to develop a polished game in a team on a tight schedule
+
+- Further develop my skills in Unreal Engine 5
+
+
+## Project Vision
+
+A lot of the projects I have worked on often have serious undertones, so I have always wanted to make a more positive and goofy game.
+
+The idea for this project arose from the group brainstorming and picking something that stuck out to us the most. Originally, we were taking inspiration from ‘I Am Bread’ and wanted to recreate a similar experience of ‘cooking’ but with more wacky physics interactions and slightly easier controls. As we continued to flesh out the idea, we realised that our game had more in common with Katamari Damacy and thus we decided to shift our core source of inspiration and direction to it. 
+
+The core vision was cemented with the goal of creating a light-hearted and goofy game about rolling around in a kitchen as a ball of pizza dough, picking up ingredients that altered your shape, and fulfilling as many orders as possible before time runs out. The fun is intended to come from the challenge and unpredictability of the game’s physics when picking up ingredients and how they augmented the player’s movement. We wanted to fully embrace the absurdity such games can provide so players can live in the moment and laugh. 
+
+## Game Mechanics
+
+### Movement (Rolling and Jumping)
+
+To ensure players could be fully immersed in the moment, we decided to keep the controls and movement of the game simple (WASD to roll, Space to jump). This would also help offset the possible frustration some players may experience when it comes to heavily physics oriented games. Since the player is a rolling ball of pizza dough, movement is intended to feel both grippy and bouncy to reflect the nature of their character. This also in turn led to the decision to implement a jump. 
+
+<BlogImage
+	imgSrc="/pizzaBall/movement_no_ingredients.gif"
+	imgAlt="Ball of pizza dough rolling around with no ingredients attached"
+	imgCaption="Movement without ingredients"
+/>
+
+Both the roll and jump are implemented to scale a little as ingredients are picked up to compensate for the additional weight and difficulty of movement. Moreover, the jump is on a cooldown rather than when the player touches the floor to give players more leniency and allow them to do more aerial manoeuvres. We found that this helped contribute to the goofy and light-hearted vibes we wanted, and it was what we found to be the most fun from our playtesting feedback.
+
+<BlogImage
+	imgSrc="/pizzaBall/movement_with_ingredients.gif"
+	imgAlt="Ball of pizza dough rolling around with ingredients attached"
+	imgCaption="Movement with ingredients"
+/>
+
+**Implementation**:
+
+The rolling movement was implemented using a combination of force and torque through Unreal’s built in physics functions. Force is the main action driving the movement and a bit of torque is added to ensure the player rolls more than they slide.
+
+<Prism 
+	lang="cpp"
+	code={
+`void APizzaBallPawn::Move(const FInputActionValue& Value)
+{
+	// Cap movement speed
+	if (GetVelocity().Length() > MaxMovementVelocity)
+		return;
+	
+	FInputActionValue::Axis2D InputValue = Value.Get<FInputActionValue::Axis2D>();
+	
+	// Get the camera's forward and right vectors
+	FVector ForwardVector = Camera->GetForwardVector();
+	FVector RightVector = Camera->GetRightVector();
+    
+	// Project these vectors onto the horizontal plane (ignore Z)
+	ForwardVector.Z = 0;
+	RightVector.Z = 0;
+	ForwardVector.Normalize();
+	RightVector.Normalize();
+
+	// Calculate the movement vectors
+	const FVector MovementVector = InputValue.Y * ForwardVector + InputValue.X * RightVector;
+	const FVector RightMovementVector = FVector::CrossProduct(FVector::UpVector, MovementVector);
+    
+	// Apply force and rotation to the ball.
+	// We add force to ensure the ball is being propelled forward.
+	// We add torque to ensure the ball is rotating and can roll. 
+	BallMesh->AddForce(MovementVector * MovementForce);
+	BallMesh->AddTorqueInDegrees(RightMovementVector * RotationForce, NAME_None, true);
+}`
+	}
+/>
+<CaptionBlock
+	caption="Movement code"
+/>
+
+Originally, we tried exclusively applying force and exclusively applying torque. We found that with just force, the player would end up sliding when they had a lot of ingredients, and with just torque, the player would not move forward at all when they tried climbing up the stairs or hit anything that obstructed their movement. Therefore, we needed to gradually tweak the amount of each in combination to achieve the desired movement feel.
+
+<BlogImage
+	imgSrc="/pizzaBall/movement_comparison.gif"
+	imgAlt="Movement with just force applied compared to movement with just torque"
+	imgCaption="Movement with just force Vs just torque"
+/>
+
+The implementation for the jump is as simple as it gets; apply an upward force when the player can jump. Aside from the game design reason for this method of jumping, we had technical difficulties in finding a way to know when the player’s character was touching the floor when they had large ingredients attached to them. We were also under time constraints to have other elements of the game completed for our playtests which meant we could not afford to spend too much time implementing a complex solution. 
+
+One way we could have solved this problem would be to connect to the attached ingredient’s `on hit` signals and filter for just ground contact to reset the jump. Alternatively, we could have also regenerated the pizza ball’s collision shape when new ingredients are added and then use it’s `on hit` signal. The regenerated collision shape method may have also given us more control over the behaviour of the rolling movement which could have resulted in better game feel. All are interesting solutions in hindsight.
+
+
+### Picking Up Ingredients
+
+The picking up ingredients mechanic is the star of our game as it is catalyst for the funny physics interactions the player experiences. When the player’s character collides or rolls over an ingredient, it will stick to their body making it potentially easier or harder to move, thus providing a core challenge to our game. Such a mechanic also adds an element of “push and pull” as players can strategize what ingredients to pick, where they should ideally be attached to on their character, and where in the kitchen to pick them up from so they can form an efficient path to the oven.
+
+<BlogImage
+	imgSrc="/pizzaBall/main_demo.gif"
+	imgAlt="Movement with just force applied compared to movement with just torque"
+	imgCaption="Movement with just force Vs just torque"
+/>
+
+This mechanic is very similar to Katamari Damacy’s core mechanic, however we decided to allow the full collision shape of the picked up ingredients to be applied rather than a smoothed/ sphere equivalent (which is evident in Katamari Damacy through its smoother rolling and how picked up items can clip through the floor and walls) for the challenge.
+
+**Implementation**:
+
+Implementing this mechanic was as simple as attaching the rolled over ingredient to the player’s mesh, however on the first iteration the game’s physics exploded and caused the player to spin out of control. 
+
+<BlogImage
+	imgSrc="/pizzaBall/bad_physics.gif"
+	imgAlt="Movement with just force applied compared to movement with just torque"
+	imgCaption="Movement with just force Vs just torque"
+/>
+
+Interestingly, I was able to get it to behave correctly when I manually attached an ingredient to the player through the editor while the game was running. Seeking out a solution eventually led me to learning about Unreal’s physics states, and with the following line to reset the ingredient’s physics state upon attachment, the mechanic was working as intended.
+
+<Prism 
+	lang="cpp"
+	code={
+`// Need to recreate the physics state for the picked up object to avoid the physics exploding
+PickedUpObject->PickupMesh->RecreatePhysicsState();`
+}
+/>
+<CaptionBlock
+	caption="Code required to not make the physics explode"
+/>
+
+
+### The Ingredients
+
+The ingredients are another core pillar of the game providing not only the main objects for players to interact with, but also serving to enhance the challenge of the game and its goofy vibes. 
+When designing ingredients, there were two things my team focused on: 
+
+- How the ingredient affects the player’s movement
+- What facial expression it should have
+
+Since movement is a significant part of our game, we strived to have a diverse range of ingredients with different shapes. This not only changes how it affects the player’s movement, but also its silhouette to ensure it could be easily recognised and found for orders.
+
+<BlogImage
+	imgSrc="/pizzaBall/all_ingredients_lined_up.png"
+	imgAlt="All ingredients in the game lined up next to each other"
+	imgCaption="All ingredients in the game"
+/>
+
+Additionally, as the player is already playing as a sentient ball of dough, we wanted to add unique facial expressions to the ingredients to give them more personality in order to further advance the goofy vibes of the game and make players smile.
+
+During playtesting, we found that players still had difficulty finding and recognising ingredients. Moreover, many would not traverse to the higher areas of the kitchen because they did not know if anything was there. These issues were thus the driving factor behind our decision to add the green outlines for ingredients required by the current order.
+
+<BlogImage
+	imgSrc="/pizzaBall/ingredient_wall_hacks.png"
+	imgAlt="Required ingredients being shown through walls with a green outline"
+	imgCaption="Green outline to highlight required ingredients"
+/>
+
+**Implementation**:
+
+All the ingredients in the game are data driven with their information being kept in a DataTable describing their: Name, Base score when processed, and their Pickup tag (more on this later). The physical representation of the ingredients are instances of a common base class which we can assign the row of the DataTable for the ingredient that they are and their unique mesh.
+
+<BlogImage
+	imgSrc="/pizzaBall/ingredient_data_table.png"
+	imgAlt="Table with ingredient data"
+	imgCaption="Ingredient DataTable"
+/>
+
+We implemented our ingredients in this manner because all ingredients are essentially the same object but with different information. Moreover, utilising DataTables provided us with the flexibility to easily add or remove ingredients during development, and made it easier to implement the order system because of how centralised the information was. 
+
+
+## Order System
+
+The order system is what ties the game together and actually makes it a game. It is not only responsible for providing players with their order receipts, but also keeping track of the ingredients in the kitchen. I was solely in charge of its development.
+
+Players must collect ingredients that are on their current order to score points, and they submit their order by jumping into the oven. An order does not need to be fully complete for it to be successfully processed, however the more complete it is the more points the player will gain (this was done to encourage players to fully complete orders and explore the kitchen to find the required ingredients). Picking up unwanted ingredients results in a score penalty
+
+<BlogImage
+	imgSrc="/pizzaBall/order_receipt_ui.png"
+	imgAlt="Screenshot of game highlighting the order receipt in the bottom lefthand corner"
+	imgCaption="In-game UI"
+/>
+
+In the original prototype, the order system did not exist and instead the objective was to collect as many ingredients as possible and obtain the highest score. While the game was still fun, it felt shallow and there was little encouraging players to properly explore the kitchen. Hence, the order system was introduced. 
+
+The key components of the order system are:
+- The customer DataTable
+- The ability to find and track all ingredients in the kitchen
+- Order creation function
+
+All customers in the game have a set list of ingredients they would want on their pizza to help players form associations between customers and their preferred ingredients.
+
+The process to create an order is as follows:
+
+1. Randomly select a customer.
+2. From that customer’s list of desired ingredients, keep randomly selecting and adding them to the order until the required amount is reached.
+3. If the kitchen has run out of an ingredient, exclude that ingredient from the list and randomly select another.
+4. If an order cannot be formed from a customer’s list of ingredients, exclude that customer and randomly select another to repeat the process.
+
+New orders are set at the start of the game and after the player submits an order by entering the oven.
+
+### Implementation
+
+**Customers**:
+
+Customers are set up in the same way as ingredients - using a DataTable describing their: Name, Number of ingredients on an order, and the Ingredients they want. The reasoning behind this implementation is also the same as using DataTables allowed us to easily add, modify, and remove customers as we developed.
+
+<BlogImage
+	imgSrc="/pizzaBall/customer_data_table.png"
+	imgAlt="Table with customer data"
+	imgCaption="Customer DataTable"
+/>
+
+**Ordering Process**:
+
+All the logic for the order system is housed in the Game State class.
+
+To prevent the issue of selecting ingredients that do not exist in the kitchen anymore, a `TMap` of all the ingredients in the kitchen, and their amount, is created at the start of the game and maintained as orders are processed. This is done by having each ingredient actor assign itself its corresponding Pickup tag so that a `UGameplayStatics::GetAllActorsWithTag()` search can be used on each ingredient. 
+
+Additionally, to prevent the issue of not having a customer with a valid order, there is a customer who has every ingredient in their ingredient list (The Critic). Thus, eventually the order setting algorithm will default to them. 
+
+<Prism 
+	lang="cpp"
+	code={
+`void APizzaBallGameState::SetCustomerAndOrder()
+{
+	// Turn off wall hacks for required ingredients if there are any
+	SetCurrentIngredientsToCollectStencilValue(OutlineCustomDepthStencilValue);
+	
+	// Get all customer rows.
+	TArray<FName> RowNames = CustomerTable->GetRowNames();
+
+	bool IsSettingOrder = true;
+
+	while (IsSettingOrder)
+	{
+		// Reset order/ customer state
+		CurrentCustomer = "";
+		
+		IngredientsToCollect.Empty();
+		IngredientsToCollectNames.Empty();
+		IngredientsToCollectCount.Empty();
+
+		if (RowNames.Num() == 0)
+		{
+			break;
+		}
+
+		const FName RandomRowName = RowNames[FMath::RandRange(0, RowNames.Num() - 1)];
+
+		CurrentCustomer = RandomRowName;
+		const FCustomerTableRow* CurrentCustomerData = GetCurrentCustomerInfo();
+		TArray<FDataTableRowHandle> IngredientOptions = CurrentCustomerData->IngredientOptions;
+		
+		// Set current order by getting random ingredients from customer ingredient array, removing ones that don't exist
+		// in the level anymore.
+		int IngredientsAdded = 0;
+		TMap<FName, int> IngredientsAddedCount;
+
+		while (IngredientsAdded < CurrentCustomerData->NumberOfIngredients)
+		{
+			// Get the random ingredient
+			const FDataTableRowHandle RandomIngredient = IngredientOptions[FMath::RandRange(0, IngredientOptions.Num() - 1)];
+			const FPickupTableRow* SelectedIngredient = RandomIngredient.GetRow<FPickupTableRow>(FString("Getting pick up info"));
+
+			// Add the ingredient if it is still in the level, otherwise remove it from the option list and find another.
+			const bool IngredientInLevel = LevelIngredientCount.Contains(SelectedIngredient->PickupTag) && LevelIngredientCount[SelectedIngredient->PickupTag] > 0;
+			bool CanAddIngredient = true;
+
+			// Check if there are enough ingredients of the same type in the level to add if we have already added it
+			if (IngredientInLevel && IngredientsAddedCount.Contains(SelectedIngredient->PickupTag))
+			{
+				CanAddIngredient = IngredientsAddedCount[SelectedIngredient->PickupTag] < LevelIngredientCount[SelectedIngredient->PickupTag];
+			}
+
+			// If ingredient is available, add it to the order
+			if (IngredientInLevel && CanAddIngredient)
+			{
+				IngredientsToCollect.Add(RandomIngredient);
+				IngredientsToCollectNames.Add(SelectedIngredient->PickupName);
+
+				if (IngredientsToCollectCount.Contains(SelectedIngredient->PickupName))
+				{
+					IngredientsToCollectCount[SelectedIngredient->PickupName]++;
+				}
+				else
+				{
+					IngredientsToCollectCount.Add(SelectedIngredient->PickupName, 1);
+				}
+				
+				IngredientsAdded++;
+
+				if (IngredientsAddedCount.Contains(SelectedIngredient->PickupTag))
+				{
+					IngredientsAddedCount[SelectedIngredient->PickupTag]++;
+				}
+				else
+				{
+					IngredientsAddedCount.Add(SelectedIngredient->PickupTag, 1);
+				}
+			}
+			else
+			{
+				IngredientOptions.Remove(RandomIngredient);
+
+				// Exit the loop if there are no ingredient options left to find in the level.
+				// This will result in a shorter ingredient list.
+				if (IngredientOptions.IsEmpty())
+				{
+					break;
+				}
+			}
+		}
+
+		// If we did not add any ingredients, we try to find another customer
+		if (IngredientsAdded > 0)
+		{
+			IsSettingOrder = false;
+		}
+		else {
+			// Remove the customer and try again
+			RowNames.RemoveSingle(CurrentCustomer);
+
+			// There should never be a situation where we run out of customers as at least 1 customer in the data table
+			// should have a list of all possible ingredients.
+		}
+	}
+	
+	OrderCount++;
+	
+	// Set wall hacks for selected ingredients
+	SetCurrentIngredientsToCollectStencilValue(WallHacksCustomDepthStencilValue);
+
+	// Broadcast event to update UI and notify other game elements
+	OnNewOrderSet.Broadcast(OrderCount, CurrentCustomer, IngredientsToCollectNames);
+}`
+}
+/>
+<CaptionBlock
+	caption="Order setting code"
+/>
+
+<Prism 
+	lang="cpp"
+	code={
+`void APizzaBallGameState::ProcessOrder()
+{
+	// Increment the total orders fulfilled
+	TotalOrdersFulfilled++;
+	
+	if (IngredientsToCollectNames.Num() > 0)
+	{
+		// Process score:
+		int ScoreToAdd = 0;
+
+		int RequiredIngredientCount = 0;
+		int ExceptionIngredientCount = 0;
+		
+		// Add all base scores for relevant ingredients and remove attached ingredients from level count
+		for (ABallPickUp* Pickup : AttachedPickUps)
+		{
+			const FPickupTableRow* PickupData = Pickup->GetPickupData(); 
+			
+			// Remove from level count
+			if (LevelIngredientCount.Contains(PickupData->PickupTag))
+			{
+				LevelIngredientCount[PickupData->PickupTag]--;
+			}
+
+			// Don't include if the ingredient is not part of the order or part of the exception ingredients.
+			if (!IngredientsToCollectNames.Contains(PickupData->PickupName) && !IngredientExceptionNames.Contains(PickupData->PickupName))
+			{
+				continue;;
+			}
+			
+			// Add exception ingredients to count to make calculating modifiers easier later
+			if (IngredientExceptionNames.Contains(PickupData->PickupName))
+			{
+				ExceptionIngredientCount++;
+			}
+
+			// Exclude extra quantities of required ingredients
+			if (RequiredIngredientCount < IngredientsToCollectNames.Num())
+			{
+				ScoreToAdd += PickupData->BaseScore;
+				RequiredIngredientCount++;
+			} 
+		}
+		
+		// Apply modifiers: 2x if 50% of order matched, 4x if 100% of order matched
+		const float CorrectIngredientsPercent = CorrectIngredientsCollectedNames.Num() / IngredientsToCollectNames.Num(); 
+		
+		if (CorrectIngredientsPercent >= MaxOrderModifierThreshold)
+		{
+			ScoreToAdd *= MaxOrderModifier;
+		} 
+		else if (CorrectIngredientsPercent >= MinOrderModifierThreshold)
+		{
+			ScoreToAdd *= MinOrderModifier;
+		}
+
+		// Apply exception ingredient modifiers
+		if (ExceptionIngredientCount > 0)
+		{
+			ScoreToAdd *= ExceptionIngredientCount * ExceptionMultiplier;
+		}
+		
+		// Update current score
+		CurrentScore += ScoreToAdd;
+		OnScoreUpdated.Broadcast(CurrentScore, ScoreToAdd);
+		
+		// Remove collected ingredients
+		IrrelevantPickUps.Empty();
+		CorrectIngredientsCollectedNames.Empty();
+		CorrectIngredientsCollectedCount.Empty();
+
+		for (ABallPickUp* Pickup : AttachedPickUps)
+		{
+			Pickup->Destroy();
+		}
+		
+		AttachedPickUps.Empty();
+	}
+
+	// End the game if there are no more ingredients in the level
+	int TotalIngredientsCount = 0;
+	
+	for (const TPair<FName, int>& IngredientCount: LevelIngredientCount)
+	{
+		TotalIngredientsCount += IngredientCount.Value;
+	}
+
+	if (TotalIngredientsCount == 0)
+	{
+		EndGame();
+	}
+	else
+	{
+		// Set new order/ customer
+		SetCustomerAndOrder();
+
+		// Reset and respawn player
+		SetNewPlayerAtRandomSpawnLocation();
+	}
+}`
+}
+/>
+<CaptionBlock
+	caption="Order processing code"
+/>
+
+**Connect with UI**:
+
+To allow the current state of the game to be communicated to the player through the UI, a range of delegates are used in the Game State class:
+ - `GameStart` - signifies when the game has started.
+ - `GameEnd` - signifies when the game has ended.
+ - `OnOrderProcessed` - signifies when an order has been processed.
+ - `OnNewOrderSet` - signifies when a new order has been set and passes in additional data to allow the Order Receipt UI to be updated.
+ - `FOnScoreUpdated` - signifies when the score is updated either from the player picking up an ingredient or when an order is processed (this is primarily used to update the score UI and get the score change pop-ups to appear).
+ - `OnPickUp` - signifies when the player has picked up an ingredient to allow the Order Receipt UI to be updated.
+
+These delegates are utilised by the respective UI components to be updated accordingly.
+
+
+## Level Design
+
+### Overall Design
+
+Given the ‘Food’ theme for this project it only made sense for the level to be set in a kitchen, and throughout its entire design, we made sure it acted as a playground the player could explore, collect ingredients, and take advantage of the goofiness of the physics.
+
+<BlogImage
+	imgSrc="/pizzaBall/kitchen_overview.png"
+	imgAlt="Overview of kitchen level"
+	imgCaption="Overview of kitchen"
+/>
+
+Due to time constraints, we only developed one level for the game as we believe that one well-polished and designed level was going to better convey our game’s intended experience compared to many half-baked levels.
+
+We had the following key points of focus while creating the level:
+ - Horizontal and vertical layout 
+ - Multiple methods to access different elevated areas
+ - Distinct areas in the kitchen to make it easier to orientate and navigate
+ - Varying traversal difficulty with efficient routes being harder to move on than less efficient ones
+ - Varied ingredient placement
+
+Keeping both the horizontal and vertical layout in mind was important for my team as in addition to rolling the player has access to a lot of vertical movement options. We wanted to encourage and reward players for utilising their movement creatively and exploring the kitchen, thus the entire 3D space had to be incorporated into our design. This resulted in multiple elevated areas in the form of shelves, as well as hanging lights to fully utilise the space in the centre of the level. 
+
+<BlogImage
+	imgSrc="/pizzaBall/kitchen_highlighted.png"
+	imgAlt="Overview of kitchen highlighting the main areas of elevation"
+	imgCaption="The three elevations of the kitchen"
+/>
+
+It also led to the creation of the Golden Apple score multiplier ingredient which was placed in hard-to-reach areas as direct rewards for the player.
+
+<BlogImage
+	imgSrc="/pizzaBall/kitchen_golden_apple_placement.png"
+	imgAlt="Overview of kitchen highlighting golden apple placement"
+	imgCaption="Golden apple placement"
+/>
+
+To control the difficulty of the level, we mainly adjusted the degree of accessibility of paths to the oven through elements such as ramp and stair widths, jelly launch pad placement, and the density of ingredients in different areas. Where we made tweaks was heavily influenced by the feedback we received during our playtest sessions, as well as studying the level design of games like Katamari Damacy to see how they guided and provided the appropriate level of challenge to the player.
+
+<BlogImage
+	imgSrc="/pizzaBall/kitchen_paths_to_oven.png"
+	imgAlt="Overview of kitchen highlighting golden apple placement"
+	imgCaption="Golden apple placement"
+/>
+
+### Interactable Vs Non-Interactable items 
+
+The kitchen also features a range of additional props with some interactable and some not interactable. These include breakable plates and physics-enabled kitchen utensils. These were added to give more life to the world and hopefully create some emergent behaviour as players accidentally run into them as they move.
+
+<BlogImage
+	imgSrc="/pizzaBall/interactable_items.gif"
+	imgAlt="Pizza ball rolls around into interactable objects"
+	imgCaption="Interactable items in action"
+/>
+
+### Jelly Launch Pads
+
+Through our playtesting, we noticed that it felt very slow to just use the ramps and stairs to access elevated areas, and a lot of the aerial space in the level felt underused considering how our game is meant to embrace goofy game physics. This led to the creation of the jelly launch pads. 
+
+<BlogImage
+	imgSrc="/pizzaBall/jelly_pad.gif"
+	imgAlt="Pizza ball rolls around into interactable objects"
+	imgCaption="Interactable items in action"
+/>
+
+These launch pads also provided a way for players to more easily recreate the unpredictable and explosive physics moments where their character is suddenly launched and they fly across the map. Such experiences spark joy so we made sure that joy continues to be sparked.
+
+Furthermore, the placement and power of the jelly launch pads provided us with a level design lever to tweak the kitchen’s difficulty.
+
+
+## The Importance of Player feedback
+
+One of the core learnings the unit wanted to expose students to was how to obtain and use feedback and its importance in the game development process. Before this unit, I had an understanding that gaining feedback was important in theory, but I did not have a chance to experience it firsthand. After being pushed to create feedback forms and act on the results, I now realised just how powerful feedback can be and how it is near impossible to create a good game without it. A developer is often too close to their own work.
+
+Aside from the examples mentioned previously, another example where feedback resulted in a significant change is the way the oven is highlighted. In the final game, when the player picks up at least one item on their order, the oven will be outlined in pulsing blue and can be seen through walls. This is done not only to help the player find the oven more easily, but also in response to player feedback that they did not know they could enter the oven without fully completing an order which was intended to be a strategy for players to utilise. Therefore, by turning on the highlight when the first item on the order is collected, we illustrate to the player that the oven is “open” for use.
+
+<BlogImage
+	imgSrc="/pizzaBall/oven_highlight.gif"
+	imgAlt="Pizza ball rolls into an ingredient and the oven gets highlighted with a blue outline"
+	imgCaption="Oven highlight outline"
+/>
+
+
+## Reflection
+
+Considering the project’s scope, and the timeframe we had to complete it, I believe my team and I have created a very polished game that achieves its goals and is able to put a smile on the faces of those who play it. 
+
+I am very proud of what I was able to achieve this semester, and I feel that I was able to grow as both a game developer and as a team leader. I was able to truly learn the importance of player feedback and how crucial it can be not only to refining a game but also the creation of its core design. Additionally, I realised that it is perfectly fine to make things for simple reasons and that not everything needs to have a deeper meaning. This learning is particularly important to me as I feel that this was something that has been holding me back as a creator, but now I am ready to get back to making things that truly resonate with me. Finally, I learned that polish can truly make or break a game and that a super polished simple product will often have a stronger impact than a half-baked complex product.
+
+From this experience, some things I would do differently or keep in mind for future projects include:
+ - Trying to find more ways to get player feedback as early as possible so I can iterate more effectively
+ - Ensuring I keep budgeting slack time into my planning to account for unforeseen events
+ - Allocating sufficient time to add polish to a game throughout its development process to better convey its vision and maintain team morale
