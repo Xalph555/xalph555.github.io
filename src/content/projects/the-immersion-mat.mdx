@@ -1,0 +1,154 @@
+---
+title: "The Immersion Mat (2024)"
+projectDate: 2024-11-01
+
+# Card properties
+cardImage:
+  url: "/immersionMat/CardGif.gif"
+  alt: "User places cards on a playmat which lights up in response."
+description: "We all want to feel like an anime protagonist – especially those who play anime trading card games – but reality is often devoid of such experiences without complex equipment. Behold: ‘The Immersion Mat’. An interactive playmat for the trading card game Cardfight!! Vanguard that adds audiovisual effects to bridge the gap between anime and reality. It also includes stat trackers to keep note of Power and Critical, and its modular design opens the possibility to expand to other games."
+techDetails:
+  - 'University assignment to create an artefact in 6 weeks that incorporates some form of technology'
+  - 'Light and sound effects for the Vanguard circle and 5 Rearguard circles'
+  - 'Stat trackers tracking Power and Critical with common increments and decrements'
+  - 'Battery powered (1.2 hrs)'
+  - 'Controlled with 7 Arduino Nanos'
+  - 'Able to detect and respond to card placement without modifications to the player’s deck'
+  - 'Overall grade for the unit: HD (High Distinction)'
+  - 'Grade for the assignment: HD (High Distinction)'
+
+# Page properties
+subtitle: "University Maker Lab Unit"
+heroVideo:
+  url: "https://www.youtube.com/embed/l3P7tYORY6k?si=pdVag4uto59lcGEX"
+  title: "The Immersion Mat Demo Video"
+specifications:
+  - "Project duration: 6 weeks"
+  - "Controlled with 7 Arduino Nanos (1 for each circle + 1 for audio component)"
+  - "Light and sound effects for the Vanguard circle and 5 Rearguard circles"
+  - "Stat trackers tracking Power and Critical with common increments and decrements"
+  - 'Battery powered (1.2 hrs)'
+  - 'Automatic detection of card placement without modifications to the player’s deck'
+  - 'Overall grade for the unit: HD (High Distinction)'
+  - 'Grade for the assignment: HD (High Distinction)'
+summary:
+  - "‘The Immersion Mat’ is my major assessment project for a Maker Lab unit in my degree which aims to embody the philosophy of ‘learning through making’. The unit required students to pick their own project and develop an artefact with no limitations or requirements other than the need to incorporate some form of digital technology and having a purpose."
+  - "One of my favourite games is the trading card game Cardfight!! Vanguard which has its own anime used to market itself. The series makes the game look and feel fun to play because of the special effects shown in response to players placing cards and activating abilities. However, such an experience does not exist in reality, hence I developed ‘The Immersion Mat’ as a way to bridge the gap between what is portrayed in the anime and what people actually experience."
+  - "This assessment took place over 6 months where I had to learn how to work with microcontrollers, conduct research on the various components I could use to achieve the desired functionality, and design and develop the playmat itself."
+---
+
+import { Prism } from '@astrojs/prism';
+import BlogImage from "../../components/reusable/BlogImage.astro";
+import BlogVideo from "../../components/reusable/BlogVideo.astro";
+import CaptionBlock from "../../components/reusable/CaptionBlock.astro";
+
+
+## Goals
+
+- Bridge the gap between the experience portrayed in Cardfight!! Vanguard’s anime and the experience in reality
+
+- Make playing the game easier with digital trackers for Power and Critical
+
+- Ensure the playmat could be used at local game stores without requiring players to modify their cards
+
+- Develop a new perspective of how players play games
+
+- Push my skills as a creator
+
+
+## Process video
+
+<BlogVideo 
+	videoUrl="https://www.youtube.com/embed/1phr_ScgBUA?si=ax0kiKzgHonSutH1"
+	videoWidth="560"
+	videoHeight="315"
+	sizeScale="90%"
+	videoTitle="The Immersion Mat Process Video"
+	videoCaption="Process Video (how I made it and the challenges I encountered)"
+/>
+
+## Social media moment of fame
+
+I shared [‘The Immersion Mat’ on X (Twitter)](https://x.com/xalph555/status/1840337472708071578) and it got a bit of attention! There seems to be a market for such devices which does motivate me to keep working and improving upon it!
+
+<BlogImage
+	imgSrc="/immersionMat/TwitterPost.png"
+	imgWidth="70%"
+	imgAlt="Twitter post of the immersion mat with 538 reposts and 1.8k likes"
+	imgCaption="Shared 'The Immersion Mat' online and it received quite a bit of attention"
+/>
+
+## Using 'The Immersion Mat' and User Insights
+
+There is only so much you can do and assess with just theory and ‘what-if’ scenarios, so I took ‘The Immersion Mat’ to my local games store for a real-world test run in order to identify the pros, cons, and other insights.
+
+### Pros
+
+**It’s eye catching**
+
+Obviously, no one else in the room had such a playmat so I had a lot of people came up to me to ask about it and how I made it. It was a fun talking point to allow me to better connect with the local community and have something people can remember me by. 
+
+**Stat trackers are helpful**
+
+As I was playing a deck that gained power in explosive increments, the stat trackers made it easier to keep note of the current game state which gave me more room to think about my game plan and strategy. This in turn made it feel like I could come up with more creative ways to counter my opponent’s deck and overall keep track of what my opponent has in their hand.
+
+<BlogImage
+	imgSrc="/immersionMat/StatTracker.jpg"
+	imgWidth="50%"
+	imgAlt="Close up shot of the immersion mat's stat tracker"
+	imgCaption="Close up of the stat tracker"
+/>
+
+**Audiovisual effects tie everything together**
+
+Having lights and sounds respond to my actions made me feel more powerful as a player which kept me immersed in the game. I think just having those simple effects added a new layer of expression that you otherwise would not experience without it. Additionally, I received positive comments from players saying how even just watching someone use the mat enhanced their experience too.
+
+
+### Cons
+
+**Lights in the store were too dim preventing auto triggering of audiovisual effects**
+
+This is the biggest drawback of how I designed the playmat as using photoresistors meant it became very light dependent. I was unable to make it automatically adjust to the surroundings because the LED rings inside would also trigger the resistor if the threshold was too low. As such, I had to rely on the ultrasonic sensor and manual buttons to trigger the audiovisual effects which I also often forgot to do because I was more focused on the game.
+
+**Ultrasonic sensor for the vanguard circle was too sensitive**
+
+In theory, using the ultrasonic sensor to trigger the Vanguard circle effect was perfect and it worked as intended. However, I failed to account for situations where players would reach their hand across the board, and hence over the sensor, to interact with other elements of the game such as checking the cards in their damage zone or using energy cards. This resulted in accidental triggering of the audiovisual effects which got a little annoying over time.
+
+<BlogImage
+	imgSrc="/immersionMat/UltrasonicSensor.png"
+	imgWidth="50%"
+	imgAlt="Close up of the ultrasonic sensor"
+	imgCaption="Close up of the ultrasonic sensor"
+/>
+
+**The board state felt cramped**
+
+‘The Immersion Mat’ is measured to be the same size as a standard playmat, however the walls on the side made the game board feel more cramped than it actually was which had a negative impact on the user experience. I likely could have made the playmat slightly larger which would have still been acceptable to players because of the nature of the device.
+
+**The mat was too thick**
+
+While I had tried my best to keep ‘The Immersion Mat’ as thin as possible, I found that it was a little too tall which made it feel like it was difficult to see my opponent’s cards. It wasn’t obstructing anything, but just being at a slightly more elevated position than my opponent had a negative impact on my experience.
+
+
+### Making accessories for tabletop games
+
+Making such an accessory for a tabletop game allowed me to gain new perspective as I shifted towards a similar creative mindset as modding games (or what I would imagine would be the mindset for modding games). It forces you to really think about how your target game works and the way players interact with its various mechanics. “How do players usually carry out this action?”, “Why does a player do this?”, “What habits have players developed?”, “What can I enhanced for the greatest impact with my limited time and budget?” are all questions I had to find answers to during the playmat’s development and which guided me to focus on just the core circles and stat trackers.
+
+Additionally, I found creating for tabletop games to be a very different experience compared to purely digital games. Physical space is one limitation as I not only had to account for the size of the cards and how the gameboard is laid out, but also the overall size of the mat and whether it would be something a player can easily carry around. There is also the issue of giving more things for the player to do. In trading card games especially, players are often pressed with a high cognitive load and giving them more manual elements to manage will often take away from the experience rather than add to it. 
+
+Finally, through the creation of this playmat, I found that the idea of adding more feedback and game juice in response to the player’s actions is not just a good rule of thumb for video games, but it also translates to tabletop games too. 
+
+
+## Reflection
+
+This was probably the most time consuming and intense project I have worked on in and out of university, and despite the challenges and sleepless nights, I am very proud of what I was able to achieve. I believe I have truly pushed myself to my limits to create something that I have never done before, and I now have renewed self-confidence that I really can do anything with enough time, motivation, and resources. 
+
+I was able to create something that bridged the gap between anime and reality with positive player reception, I enhanced and made it easier to play Cardfight!! Vanguard, and I was able to develop a new perspective of how players interact with games which I can carry forward to my future projects.
+
+From this experience, some things I would do differently or keep in mind for future projects include:
+
+- Being mindful of scope and how projects involving physical components can take a lot more time compared to purely digital projects
+
+- Not letting simple features deceive me as they can actually be very complex or time consuming to implement
+
+- Always having contingency plans in case something doesn’t work so you at least have some way to show off or convey the general idea of your project

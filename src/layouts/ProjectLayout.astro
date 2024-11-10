@@ -3,6 +3,7 @@ import BaseLayout from "./BaseLayout.astro";
 import StyledContainer from "../components/reusable/StyledContainer.astro";
 import StyledContainerSharp from "../components/reusable/StyledContainerSharp.astro";
 import IconDotPoint from "../components/reusable/IconDotPoint.astro";
+import BlogVideo from "../components/reusable/BlogVideo.astro";
 
 const { frontmatter, slug } = Astro.props;
 
@@ -75,16 +76,30 @@ const embedAspectRatio = frontmatter.gameEmbed
 	<div id="game-preview">
 		<StyledContainerSharp>
 			{
-				frontmatter.gameEmbed ? (
+				frontmatter.gameEmbed && (
 					<iframe
 						src={frontmatter.gameEmbed.iframeSrc}
 						allowfullscreen=""
 						title={frontmatter.title}
 					/>
-				) : (
+				)
+			}
+			{
+				frontmatter.heroImage && (
 					<img
 						src={frontmatter.heroImage.url}
 						alt={frontmatter.heroImage.alt}
+					/>
+				)
+			}
+			{
+				frontmatter.heroVideo && (
+					<BlogVideo
+						videoUrl={frontmatter.heroVideo.url}
+						videoWidth="560"
+						videoHeight="315"
+						sizeScale="100%"
+						videoTitle={frontmatter.heroVideo.title}
 					/>
 				)
 			}
@@ -102,74 +117,70 @@ const embedAspectRatio = frontmatter.gameEmbed
 				<ul>
 					{frontmatter.specifications.map((spec: string[]) => <li>{spec}</li>)}
 				</ul>
-				<b>Links</b>
-				<ul class="links">
-					{
-						frontmatter.links.itchio && (
-							<li>
-								<IconDotPoint
-									iconClass="fa-brands fa-itch-io"
-									srIconName="itch.io"
-									iconSize="2.5em"
-									link={frontmatter.links.itchio}
-									text="itch.io"
-								/>
-							</li>
-						)
-					}
-					{
-						frontmatter.links.github && (
-							<li>
-								<IconDotPoint
-									iconClass="fa-brands fa-github"
-									srIconName="GitHub"
-									iconSize="2.5em"
-									link={frontmatter.links.github}
-									text="GitHub"
-								/>
-							</li>
-						)
-					}
-					{
-						frontmatter.links.bitbucket && (
-							<li>
-								<IconDotPoint
-									iconClass="fa-brands fa-bitbucket"
-									srIconName="BitBucket"
-									iconSize="2.5em"
-									link={frontmatter.links.bitbucket}
-									text="BitBucket"
-								/>
-							</li>
-						)
-					}
-					{
-						frontmatter.links.gitlab && (
-							<li>
-								<IconDotPoint
-									iconClass="fa-brands fa-gitlab"
-									srIconName="GitLab"
-									iconSize="2.5em"
-									link={frontmatter.links.gitlab}
-									text="GitLab"
-								/>
-							</li>
-						)
-					}
-					{
-						frontmatter.links.techDocs && (
-							<li>
-								<IconDotPoint
-									iconClass="fa-solid fa-file-lines"
-									srIconName="Technical Documentation"
-									iconSize="2.5em"
-									link={frontmatter.links.techDocs}
-									text="Technical Documentation"
-								/>
-							</li>
-						)
-					}
-				</ul>
+				{
+					frontmatter.links && (
+						<div>
+							<b>Links</b>
+							<ul class="links">
+								{frontmatter.links.itchio && (
+									<li>
+										<IconDotPoint
+											iconClass="fa-brands fa-itch-io"
+											srIconName="itch.io"
+											iconSize="2.5em"
+											link={frontmatter.links.itchio}
+											text="itch.io"
+										/>
+									</li>
+								)}
+								{frontmatter.links.github && (
+									<li>
+										<IconDotPoint
+											iconClass="fa-brands fa-github"
+											srIconName="GitHub"
+											iconSize="2.5em"
+											link={frontmatter.links.github}
+											text="GitHub"
+										/>
+									</li>
+								)}
+								{frontmatter.links.bitbucket && (
+									<li>
+										<IconDotPoint
+											iconClass="fa-brands fa-bitbucket"
+											srIconName="BitBucket"
+											iconSize="2.5em"
+											link={frontmatter.links.bitbucket}
+											text="BitBucket"
+										/>
+									</li>
+								)}
+								{frontmatter.links.gitlab && (
+									<li>
+										<IconDotPoint
+											iconClass="fa-brands fa-gitlab"
+											srIconName="GitLab"
+											iconSize="2.5em"
+											link={frontmatter.links.gitlab}
+											text="GitLab"
+										/>
+									</li>
+								)}
+								{frontmatter.links.techDocs && (
+									<li>
+										<IconDotPoint
+											iconClass="fa-solid fa-file-lines"
+											srIconName="Technical Documentation"
+											iconSize="2.5em"
+											link={frontmatter.links.techDocs}
+											text="Technical Documentation"
+										/>
+									</li>
+								)}
+							</ul>
+						</div>
+					)
+				}
 			</StyledContainer>
 		</div>
 	</div>

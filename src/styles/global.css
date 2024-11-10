@@ -28,6 +28,13 @@ a {
 	max-width: min(80%, 900px);
 }
 
+.content p code, .content li code {
+	font-size: 1.2em;
+	background-color: rgba(210, 210, 210, 0.8);
+	border-radius: 5px;
+	padding: 0em 0.3em;
+}
+
 .colored-strip {
 	background-color: #ffde5c;
 	width: 100%;

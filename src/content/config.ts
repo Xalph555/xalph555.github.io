@@ -27,6 +27,12 @@ const projectCollection = defineCollection({
 				alt: z.string(),
 			})
 			.optional(),
+		heroVideo: z
+			.object({
+				url: z.string(),
+				title: z.string(),
+			})
+			.optional(),
 		specifications: z.array(z.string()),
 		links: z.object({
 			itchio: z.string().optional(),
@@ -34,7 +40,7 @@ const projectCollection = defineCollection({
 			bitbucket: z.string().optional(),
 			gitlab: z.string().optional(),
 			techDocs: z.string().optional(),
-		}),
+		}).optional(),
 		summary: z.array(z.string()),
 	}),
 });
