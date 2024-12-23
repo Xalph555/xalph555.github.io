@@ -3,7 +3,7 @@ import Header from "../components/headerfooter/Header.astro";
 import Footer from "../components/headerfooter/Footer.astro";
 
 import "../styles/global.css";
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
 
 const { pageTitle } = Astro.props;
 ---
@@ -34,7 +34,7 @@ const { pageTitle } = Astro.props;
 		</script>
 
 		<title>{pageTitle}</title>
-		<ViewTransitions />
+		<ClientRouter />
 	</head>
 
 	<body>

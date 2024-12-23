@@ -132,7 +132,7 @@ const projects = await getCollection("projects");
 					.map((project) => (
 						<ProjectCard
 							projectFrontmatter={project.data}
-							slug={project.slug}
+							id={project.id}
 						/>
 					))
 			}

@@ -1,8 +1,9 @@
 // Import utilities from `astro:content`
 import { z, defineCollection } from "astro:content";
+import { glob } from 'astro/loaders';
 
 const projectCollection = defineCollection({
-	type: "content",
+	loader: glob({ pattern: '**/[^_]*.mdx', base: "./src/projects"}),
 	schema: z.object({
 		title: z.string(),
 		projectDate: z.date(),

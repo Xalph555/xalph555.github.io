@@ -11,12 +11,12 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
-    "@astrojs/mdx": "^3.1.8",
-    "@astrojs/prism": "^3.1.0",
-    "@astrojs/react": "^3.6.2",
+    "@astrojs/mdx": "^4.0.3",
+    "@astrojs/prism": "^3.2.0",
+    "@astrojs/react": "^4.1.2",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "astro": "^4.16.7",
+    "astro": "^5.1.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "typescript": "^5.4.5"
