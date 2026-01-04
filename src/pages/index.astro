@@ -8,15 +8,13 @@ import DynamicList from "../components/reusable/DynamicList.astro";
 
 const pageTitle: String = "Sean Lee";
 
-const languages = ["C++", "Python", "Typescript/ Javascript", "Html/ CSS"];
+const languages = ["C++", "Python", "Typescript/ Javascript", "HTML/ CSS"];
 const gameEngines = ["Godot", "Unreal Engine 5", "Unity"];
-const tools = [
-	"Trello",
-	"Jira",
-	"Git, GitHub, GitLab, BitBucket",
-	"Clip Studio Paint",
+const frameworks = [
+	"Django",
+	"React",
 ];
-const fields = ["Game development (gameplay)", "Frontend web", "Backend web", "Agile development"];
+const fields = ["Game development", "Frontend web", "Backend web", "Agile development"];
 
 const projects = await getCollection("projects");
 ---
@@ -118,7 +116,7 @@ const projects = await getCollection("projects");
 			<div class="skills-grid">
 				<DynamicList listTitle="Languages" listItems={languages} />
 				<DynamicList listTitle="Game Engines" listItems={gameEngines} />
-				<DynamicList listTitle="Tools" listItems={tools} />
+				<DynamicList listTitle="Frameworks" listItems={frameworks} />
 				<DynamicList listTitle="Fields" listItems={fields} />
 			</div>
 		</StyledContainer>
