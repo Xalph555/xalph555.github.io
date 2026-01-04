@@ -23,6 +23,7 @@ a {
 .content {
 	background-color: #b9fbff;
 	color: rgb(58, 59, 57);
+	line-height: 1.6;
 	margin: 2em auto;
 	width: 100%;
 	max-width: min(80%, 900px);

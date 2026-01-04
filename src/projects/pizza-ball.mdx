@@ -149,8 +149,8 @@ Implementing this mechanic was as simple as attaching the rolled over ingredient
 
 <BlogImage
 	imgSrc="/pizzaBall/bad_physics.gif"
-	imgAlt="Movement with just force applied compared to movement with just torque"
-	imgCaption="Movement with just force Vs just torque"
+	imgAlt="Player's movement becoming erratic and uncontrollable when an item sticks onto them"
+	imgCaption="Physics bugging out when picking up items"
 />
 
 Interestingly, I was able to get it to behave correctly when I manually attached an ingredient to the player through the editor while the game was running. Seeking out a solution eventually led me to learning about Unreal’s physics states, and with the following line to reset the ingredient’s physics state upon attachment, the mechanic was working as intended.
