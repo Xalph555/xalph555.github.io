@@ -17,17 +17,25 @@ import Navigation from "./Navigation.astro";
 		width: 100%;
 		max-width: min(80%, 1000px);
 		display: flex;
-		align-items: baseline;
+		align-items: flex-end;
+	}
+
+	.title-and-name {
+		margin-right: auto;
+		padding-top: 1em;
+		margin-bottom: 1em;
 	}
 
 	h1 {
 		font-size: 3em;
-		margin-right: auto;
-		padding-top: 0.5em;
-		margin-bottom: 0.5em;
-    
+		margin-bottom: 0.1em;
 	}
-  @media screen and (max-width: 744px) {
+
+	.title-and-name span {
+		font-size: 1.25em;
+	}
+	
+  @media screen and (max-width: 840px) {
     .header-content {
       display: block;
       text-align: center;
@@ -35,14 +43,13 @@ import Navigation from "./Navigation.astro";
       padding-top: 0.5em;
     }
 
-    h1 {
-      /* display: none; */
+    .title-and-name {
       padding-top: 0.2em;
       margin-bottom: 0em;
     }
   }
   @media screen and (max-width: 415px) {
-    h1 {
+    .title-and-name {
       display: none;
     }
   }
@@ -50,7 +57,11 @@ import Navigation from "./Navigation.astro";
 
 <header>
 	<div class="header-content">
-		<h1>Sean Lee</h1>
+		<div class="title-and-name">
+			<h1>Sean Lee</h1>
+			<span>Software Engineer/ Game Developer</span>
+			<!-- Software Engineer/ Game Developer -->
+		</div>
 		<nav>
 			<Navigation />
 		</nav>
