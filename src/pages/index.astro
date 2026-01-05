@@ -52,8 +52,11 @@ const projects = await getCollection("projects");
 	.projects-grid {
 		display: grid;
 		justify-self: center;
-		gap: 3em;
+		gap: 1.25em;
 		grid-template-columns: repeat(auto-fit, minmax(22em, 1fr));
+	}
+	.project-card-wrapper:hover{
+		transform: scale(1.02);
 	}
 
 	/* Responsive styles */
@@ -67,15 +70,9 @@ const projects = await getCollection("projects");
 			display: block;
 		}
 	}
-	@media screen and (max-width: 940px) {
+	@media screen and (max-width: 600px) {
 		.projects-grid {
-			/* grid-template-columns: repeat(auto-fit, minmax(12em, 1fr)); */
 			grid-template-columns: repeat(auto-fit, minmax(15em, 1fr));
-		}
-	}
-	@media screen and (max-width: 400px) {
-		.projects-grid {
-			grid-template-columns: repeat(auto-fit, minmax(12em, 1fr));
 		}
 	}
 </style>
@@ -130,10 +127,12 @@ const projects = await getCollection("projects");
 							b.data.projectDate.getTime() - a.data.projectDate.getTime()
 					)
 					.map((project) => (
-						<ProjectCard
-							projectFrontmatter={project.data}
-							id={project.id}
-						/>
+						<div class="project-card-wrapper">
+							<ProjectCard
+								projectFrontmatter={project.data}
+								id={project.id}
+							/>
+						</div>
 					))
 			}
 		</div>
