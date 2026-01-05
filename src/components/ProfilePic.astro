@@ -1,11 +1,12 @@
 ---
-
+import StyledContainer from "../components/reusable/StyledContainer.astro";
 ---
 
 <style>
 	.profile-pic {
 		display: grid;
 		justify-items: center;
+		gap: 1.5em;
 	}
 	.profile-pic img {
 		border-style: solid;
@@ -15,18 +16,26 @@
 		object-fit: cover;
 		box-shadow: 2px 3px 5px #00000052;
 	}
-	.profile-pic div {
-		margin-top: 1em;
-		max-width: 200px;
-		text-align: center;
-	}
 	.job-title {
 		display:none;
+	}
+	.contact {
+		display: flex;
+		font-size: 2em;
+		gap: 0.75em;
+		padding: 0.01em 0.5em;
+		/* padding-left: 0.5em;
+		padding-right: 0.5em; */
 	}
 
 	@media screen and (max-width: 415px) {
 		.job-title {
 			display:block;
+			max-width: 200px;
+			text-align: center;
+		}
+		.contact-container {
+			display: none;
 		}
 	}
 
@@ -47,5 +56,14 @@
 		<span>
 			Game Developer
 		</span>
+	</div>
+	<div class="contact-container">
+		<StyledContainer>
+			<div class="contact">
+				<a href="mailto:sean.winglim@gmail.com"><i class="fa-solid fa-envelope"><span class="sr-only">Email</span></i></a>
+				<a href="https://au.linkedin.com/in/sean-wl-lee"><i class="fa-brands fa-linkedin"><span class="sr-only">LinkedIn</span></i></a>
+				<a href="https://x.com/xalph555"><i class="fa-brands fa-square-x-twitter"><span class="sr-only">X</span></i></a>
+			</div>
+		</StyledContainer>
 	</div>
 </div>
