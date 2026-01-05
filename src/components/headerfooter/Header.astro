@@ -48,7 +48,12 @@ import Navigation from "./Navigation.astro";
       margin-bottom: 0em;
     }
   }
-  @media screen and (max-width: 415px) {
+  @media screen and (max-width: 375px) {
+	.title {
+		display: none;
+	}
+  }
+  @media screen and (max-width: 359px) {
     .title-and-name {
       display: none;
     }
@@ -59,7 +64,7 @@ import Navigation from "./Navigation.astro";
 	<div class="header-content">
 		<div class="title-and-name">
 			<h1>Sean Lee</h1>
-			<span>Software Engineer/ Game Developer</span>
+			<span class="title">Software Engineer/ Game Developer</span>
 			<!-- Software Engineer/ Game Developer -->
 		</div>
 		<nav>
